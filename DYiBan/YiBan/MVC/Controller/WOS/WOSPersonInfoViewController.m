@@ -32,7 +32,7 @@
 #import "WOSLogInViewController.h"
 #import "WOSOrderLostViewController.h"
 #import "WOSFindMIMAViewController.h"
-@interface WOSPersonInfoViewController (){
+@interface WOSPersonInfoViewController ()<UIActionSheetDelegate,UIImagePickerControllerDelegate>{
     
     
     
@@ -43,7 +43,7 @@
 }
 
 
-
+@property(nonatomic,strong)UIImagePickerController  *controller;
 @end
 
 
@@ -84,93 +84,133 @@
         
         //        [self.rightButton setHidden:YES];
         
-        [self.headview setTitle:@"个人中心"];
         
-        [self setButtonImage:self.leftButton setImage:@"back"];
-        
-        [self setButtonImage:self.rightButton setImage:@"more.png"];
+        [self.headview setTitle:@"我的账户"];
+        [self setButtonImage:self.leftButton setImage:@"返回键"];
         [self.headview setTitleColor:[UIColor colorWithRed:193.0f/255 green:193.0f/255 blue:193.0f/255 alpha:1.0f]];
-        [self.view setBackgroundColor:ColorBG];
+        
+         [self.headview setBackgroundColor:[UIColor colorWithRed:40.0f/255 green:191.0f/255 blue:140.0f/255 alpha:1.0f]];
+      //  [self.view setBackgroundColor:ColorBG];
+        self.view.layer.contents = (id)[UIImage imageNamed:@"gray_bg"].CGImage;
                 
     }
     
     else if ([signal is:[MagicViewController CREATE_VIEWS]]) {
         
         
-        UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(20.0f, self.headHeight + 10, 280, 300)];
-        UIImage *imageNew = [[UIImage imageNamed:@"text_area"] resizableImageWithCapInsets:UIEdgeInsetsMake(10.5, 10.5 , 10.5,10.5)];
+        
+        CGFloat fypoint = self.headHeight+10;
+        CGFloat fysep = 10;
+        UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake((self.view.frame.size.width-74)/2, fypoint, 74, 70)];
+        UIImage *imageNew = [UIImage imageNamed:@"log"];
         [imageView setImage:imageNew];
+        imageView.layer.masksToBounds = YES;
+        imageView.layer.cornerRadius = 35;
+        imageView.userInteractionEnabled = YES;
+        imageView.tag = 2000;
+        
+        UITapGestureRecognizer  *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(chooseHeadImage:)];
+        [imageView addGestureRecognizer:tap];
         [self.view addSubview:imageView];
         RELEASE(imageView);
             
         
         [self.rightButton setHidden:YES];
-                
-        [self.view setBackgroundColor:[UIColor clearColor]];
-                
-        UIView *viewBG = [[UIView alloc]initWithFrame:CGRectMake(20.0f, self.headHeight + 10, 280, 300)];
-        
-        [viewBG setBackgroundColor:[UIColor clearColor]];
-        
-        [self.view addSubview:viewBG];
-        
-        RELEASE(viewBG);
-                
-        UIImageView *imageViewUserPhone = [[UIImageView alloc]initWithFrame:CGRectMake(5.0f, 5.0f, 50.0f, 50.0f)];
-        [imageViewUserPhone setImage:[UIImage imageNamed:@"food1"]];
-        [viewBG addSubview:imageViewUserPhone];
-        RELEASE(imageViewUserPhone);
+
         
         
-        UILabel *labelName = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMidX(imageViewUserPhone.frame) + CGRectGetWidth(imageViewUserPhone.frame), 5, 100, 20)];
+        fypoint += fysep+70;
+        
+        UILabel *labelsethead = [[UILabel alloc]initWithFrame:CGRectMake(0, fypoint, 320, 21)];
+        [labelsethead setText:@"点击设置头像"];
+        [labelsethead setBackgroundColor:[UIColor clearColor]];
+        [labelsethead setTextColor:[UIColor whiteColor]];
+        [labelsethead setTextAlignment:NSTextAlignmentCenter];
+        [self.view addSubview:labelsethead];
+        [labelsethead release];
+        
+        fypoint += fysep+21;
+        
+        
+        
+        UILabel *labelName = [[UILabel alloc]initWithFrame:CGRectMake(0,fypoint,320,30)];
         
         [labelName setText:@"tomgg"];
         
         [labelName setBackgroundColor:[UIColor clearColor]];
         
-        [labelName setTextColor:ColorGryWhite];
+        [labelName setTextColor:ColorGreen];
         
-        [viewBG addSubview:labelName];
+        [self.view addSubview:labelName];
+        labelName.tag = 1000;
+        
+        [labelName setTextAlignment:NSTextAlignmentCenter];
         
         [labelName release];
-            
         
         
-        UILabel *labelTotal = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMidX(imageViewUserPhone.frame) + CGRectGetWidth(imageViewUserPhone.frame), 25, 100, 30)];
-        [labelTotal setBackgroundColor:[UIColor clearColor]];
-        [labelTotal setText:@"积分：100"];
+        fypoint += fysep+30+10;
         
-        [labelTotal setTextColor:ColorGryWhite];
+        UILabel *labelScore = [[UILabel alloc]initWithFrame:CGRectMake(0,fypoint,320,30)];
+    
+        [labelScore setText:@"我的积分"];
         
-        [viewBG addSubview:labelTotal];
+        [labelScore setBackgroundColor:[UIColor clearColor]];
         
-        [labelTotal release];
+        [labelScore setTextColor:ColorGray];
         
-          
+        [self.view addSubview:labelScore];
         
-        arrayTitle = [[NSArray alloc]initWithObjects:@"全部订单",@"地址簿",@"收藏夹",@"电子优惠券",@"找回密码", nil];
-        tbDataBank1 = [[DYBUITableView alloc]initWithFrame:CGRectMake(0.0f,  50 + 20, 280.0f, 6* 40) isNeedUpdate:NO];
-        [tbDataBank1 setScrollEnabled:NO];
-        [tbDataBank1.headerView setHidden:YES];
-        [tbDataBank1.footerView setHidden:YES];
-        [tbDataBank1 setSeparatorColor:[UIColor clearColor]];
-        [tbDataBank1 setTableViewType:DTableViewSlime];
-        [viewBG addSubview:tbDataBank1];
+        labelScore.tag = 10001;
+        [labelScore setTextAlignment:NSTextAlignmentCenter];
+        
+        [labelScore release];
+        
+        
+        fypoint += fysep+30;
+        UILabel *labelPhone = [[UILabel alloc]initWithFrame:CGRectMake(0,fypoint,320,30)];
+        
+        [labelPhone setText:@"绑定手机:15502185591"];
+        
+        [labelPhone setBackgroundColor:[UIColor clearColor]];
+        
+        [labelPhone setTextColor:ColorGray];
+        
+        [self.view addSubview:labelPhone];
+        
+        labelPhone.tag = 10002;
+        [labelPhone setTextAlignment:NSTextAlignmentCenter];
+        
+        [labelPhone release];
+        
+        
+        fypoint +=  fysep+20+30;
+        
+        UIButton *btnModifiedPwd = [[UIButton alloc]initWithFrame:CGRectMake((320-80)/2, fypoint, 80,30)];
+        
+        [self.view addSubview:btnModifiedPwd];
+        [btnModifiedPwd setBackgroundColor:[UIColor clearColor]];
+        [btnModifiedPwd setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
+       
+        
+        [btnModifiedPwd addTarget:self action:@selector(modifiedPwd:) forControlEvents:UIControlEventTouchUpInside];
+      //  [btnModifiedPwd setImage:[UIImage imageNamed:@"button"] forState:UIControlStateNormal];
+        [self addlabel_title:@"更改密码" frame:btnModifiedPwd.frame view:btnModifiedPwd];
+        [btnModifiedPwd release];
                 
-        RELEASE(tbDataBank1);
-        
-        [tbDataBank1 setBackgroundColor:[UIColor clearColor]];
         
         
-        UIButton *btnBack = [[UIButton alloc]initWithFrame:CGRectMake(10.0f, CGRectGetHeight(viewBG.frame) + CGRectGetMinY(viewBG.frame) + 20, 300, 44)];
+        fypoint += 30+fysep;
+        
+        UIButton *btnBack = [[UIButton alloc]initWithFrame:CGRectMake((320-80)/2, fypoint, 80,30)];
         
         [self.view addSubview:btnBack];
         [btnBack setBackgroundColor:[UIColor clearColor]];
         
-        [btnBack release];
-        
+        [btnModifiedPwd setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
         [btnBack addTarget:self action:@selector(backMan) forControlEvents:UIControlEventTouchUpInside];
-        [btnBack setImage:[UIImage imageNamed:@"button"] forState:UIControlStateNormal];
+              [btnBack release];
+       // [btnBack setImage:[UIImage imageNamed:@"button"] forState:UIControlStateNormal];
         [self addlabel_title:@"退出登陆" frame:btnBack.frame view:btnBack];
 
     }
@@ -189,6 +229,23 @@
     
 }
 
+
+-(void)modifiedPwd:(id)sender
+{
+    
+    DLogInfo(@"modifiedPwd:%@",sender);
+    
+}
+
+-(void)chooseHeadImage:(id)sender
+{
+    
+    UIActionSheet   *sheet = [[UIActionSheet alloc] initWithTitle:@"选择头像" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"照相" otherButtonTitles:@"来自相册", nil];
+    [sheet showInView:self.view];
+    
+    
+}
+
 -(void)addlabel_title:(NSString *)title frame:(CGRect)frame view:(UIView *)view{
     
     UILabel *label1 = [[UILabel alloc]initWithFrame:CGRectMake(0.0f, 0.0f, CGRectGetWidth(view.frame), CGRectGetHeight(view.frame))];
@@ -196,7 +253,7 @@
     [label1 setTag:100];
     [label1 setTextAlignment:NSTextAlignmentCenter];
     [view bringSubviewToFront:label1];
-    [label1 setTextColor:[UIColor whiteColor]];
+    [label1 setTextColor:[UIColor blackColor]];
     [label1 setBackgroundColor:[UIColor clearColor]];
     [view addSubview:label1];
     RELEASE(label1);
@@ -206,7 +263,7 @@
 
 
 -(void)backMan{
-    
+      DLogInfo(@"backMan:");
     return;
     
     WOSLogInViewController *login = [[WOSLogInViewController alloc]init];
@@ -219,6 +276,64 @@
 
 
 
+#pragma mark UIActionSheetDelegate
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 0)
+    {
+        UIImagePickerController *pick = [[UIImagePickerController alloc] init];
+        pick.delegate = self;
+        pick.sourceType = UIImagePickerControllerSourceTypeCamera;
+        [self presentModalViewController:pick animated:YES];
+        pick.allowsEditing = YES;
+        self.controller = pick;
+    }else if(buttonIndex == 1)
+    {
+        UIImagePickerController *pick = [[UIImagePickerController alloc] init];
+        pick.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        pick.allowsEditing = YES;
+        pick.delegate = self;
+        [self presentModalViewController:pick animated:YES];
+        self.controller = pick;
+        
+    }
+}
+
+
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary *)editingInfo;
+{
+    
+    UIImageView *imageHead = (UIImageView*)[self.view viewWithTag:2000];
+    if ([editingInfo valueForKey:UIImagePickerControllerEditedImage])
+    {
+        imageHead.image = [editingInfo valueForKey:UIImagePickerControllerEditedImage];
+    }else
+    {
+        imageHead.image = image;
+    }
+    
+    [self dismissModalViewControllerAnimated:YES];
+}
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+{
+    UIImageView *imageHead = (UIImageView*)[self.view viewWithTag:2000];
+    if ([info valueForKey:UIImagePickerControllerEditedImage])
+    {
+        imageHead.image = [info valueForKey:UIImagePickerControllerOriginalImage];
+    }else
+    {
+        imageHead.image = nil;
+    }
+      [self dismissModalViewControllerAnimated:YES];
+    
+}
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
+{
+    
+      [self dismissModalViewControllerAnimated:YES];
+}
 
 
 
@@ -510,6 +625,8 @@
 - (void)dealloc
 
 {
+    
+    self.controller = nil;
     
     [arrayTitle release];
     

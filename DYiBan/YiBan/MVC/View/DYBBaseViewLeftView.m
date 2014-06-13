@@ -34,6 +34,7 @@
 DEF_SIGNAL(PHOTOBUTTON)//图片按钮
 DEF_SIGNAL(MAPBUTTON)//地图按钮
 DEF_SIGNAL(SELECTBUTTON)//选择按钮
+DEF_SIGNAL(PERSONINFOIMAGE)
 @synthesize photoBtn = _photoBtn,newTag = _newTag,oldTag = _oldTag;
 
 
@@ -72,6 +73,11 @@ DEF_SIGNAL(SELECTBUTTON)//选择按钮
         UIImageView *imageViewIcon = [[UIImageView alloc]initWithFrame:CGRectMake((320 - 60 - 80)/2 - 20, 54/2, 80.0f, 80.0f)];
         [imageViewIcon setImage:[UIImage imageNamed:@"60pt"]];
         [self addSubview:imageViewIcon];
+        
+        UITapGestureRecognizer  *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(goPersonInfo:)];
+        [imageViewIcon addGestureRecognizer:tap];
+        [tap release];
+        imageViewIcon.userInteractionEnabled = YES;
         [imageViewIcon release];
         
         [imageViewIcon.layer setMasksToBounds:YES];
@@ -132,6 +138,12 @@ DEF_SIGNAL(SELECTBUTTON)//选择按钮
     return self;
 }
 
+
+-(void)goPersonInfo:(id)sender
+{
+     [self sendViewSignal:[DYBBaseViewLeftView PERSONINFOIMAGE] withObject:nil from:self];
+    
+}
 -(void)goOrder:(id)sender{
     UIButton *btn = (UIButton *)sender;
     switch (btn.tag) {

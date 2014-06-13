@@ -65,7 +65,7 @@
         
         UIImageView *imageViewIcon = [[UIImageView alloc]initWithFrame:CGRectMake((320 - 0 - 60)/2 , self.headHeight + 20, 60.0f, 60.0f)];
         [imageViewIcon setImage:[UIImage imageNamed:@"log"]];
-        [imageViewIcon release];
+       
         
         [self.rightButton setHidden:YES];
         
@@ -77,6 +77,7 @@
         RELEASE(scrollView);
         
         [scrollView addSubview:imageViewIcon];
+        [imageViewIcon release];
 
         
         //        arrayTitle = [[NSArray alloc]initWithObjects:@"告诉朋友",@"意见反馈",@"常用问题",@"关于",@"访问订餐网站", nil];

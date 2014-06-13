@@ -791,6 +791,12 @@ MagicUIButton *hiddenView;
         [self addCheckinView];
         [threeview endMoveViewWithX:0];
         selectBtIndex = -1;
+    }else if ([signal is:[DYBBaseViewLeftView PERSONINFOIMAGE]])
+    {
+        WOSPersonInfoViewController *person = [[WOSPersonInfoViewController alloc] init];
+        [self.drNavigationController pushViewController:person animated:YES];
+        RELEASE(person);
+        
     }
 
 }

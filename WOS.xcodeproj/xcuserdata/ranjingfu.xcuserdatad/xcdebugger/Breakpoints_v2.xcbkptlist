@@ -9,13 +9,29 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "DYiBan/YiBan/MVC/Controller/WOS/WOSHomeViewController.m"
-            timestampString = "424359789.245746"
+            filePath = "DYiBan/YiBan/MVC/Controller/WOS/WOSLogInViewController.m"
+            timestampString = "424360537.352417"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "118"
-            endingLineNumber = "118"
-            landmarkName = "-handleViewSignal_MagicViewController:"
+            startingLineNumber = "301"
+            endingLineNumber = "301"
+            landmarkName = "-doChange:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "DYiBan/YiBan/MVC/Controller/WOS/WOSLogInViewController.m"
+            timestampString = "424360572.847923"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "274"
+            endingLineNumber = "274"
+            landmarkName = "-doDD"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

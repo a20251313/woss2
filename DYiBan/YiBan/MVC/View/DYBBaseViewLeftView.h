@@ -16,5 +16,6 @@
 AS_SIGNAL(PHOTOBUTTON)//图片按钮
 AS_SIGNAL(MAPBUTTON)//地图按钮
 AS_SIGNAL(SELECTBUTTON)//选择按钮
+AS_SIGNAL(PERSONINFOIMAGE)//个人中心图片
 - (void)changStatus:(int)tag;
 @end

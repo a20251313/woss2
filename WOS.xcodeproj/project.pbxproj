@@ -178,7 +178,7 @@
 		28B80C61191619DF007EF5C5 /* 微信亮.png in Resources */ = {isa = PBXBuildFile; fileRef = 28B80BAB191619DF007EF5C5 /* 微信亮.png */; };
 		28B80C62191619DF007EF5C5 /* 新浪 不亮.png in Resources */ = {isa = PBXBuildFile; fileRef = 28B80BAC191619DF007EF5C5 /* 新浪 不亮.png */; };
 		28B80C63191619DF007EF5C5 /* 新浪亮.png in Resources */ = {isa = PBXBuildFile; fileRef = 28B80BAD191619DF007EF5C5 /* 新浪亮.png */; };
-		28B80C64191619DF007EF5C5 /* 灰底.png in Resources */ = {isa = PBXBuildFile; fileRef = 28B80BAE191619DF007EF5C5 /* 灰底.png */; };
+		28B80C64191619DF007EF5C5 /* gray_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 28B80BAE191619DF007EF5C5 /* gray_bg.png */; };
 		28B80C65191619DF007EF5C5 /* 矩形 1.png in Resources */ = {isa = PBXBuildFile; fileRef = 28B80BAF191619DF007EF5C5 /* 矩形 1.png */; };
 		28B80C66191619DF007EF5C5 /* 账户说明.png in Resources */ = {isa = PBXBuildFile; fileRef = 28B80BB0191619DF007EF5C5 /* 账户说明.png */; };
 		28B80C67191619DF007EF5C5 /* 返回键.png in Resources */ = {isa = PBXBuildFile; fileRef = 28B80BB1191619DF007EF5C5 /* 返回键.png */; };
@@ -1661,7 +1661,7 @@
 		28B80BAB191619DF007EF5C5 /* 微信亮.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "微信亮.png"; sourceTree = "<group>"; };
 		28B80BAC191619DF007EF5C5 /* 新浪 不亮.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "新浪 不亮.png"; sourceTree = "<group>"; };
 		28B80BAD191619DF007EF5C5 /* 新浪亮.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "新浪亮.png"; sourceTree = "<group>"; };
-		28B80BAE191619DF007EF5C5 /* 灰底.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "灰底.png"; sourceTree = "<group>"; };
+		28B80BAE191619DF007EF5C5 /* gray_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gray_bg.png; sourceTree = "<group>"; };
 		28B80BAF191619DF007EF5C5 /* 矩形 1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "矩形 1.png"; sourceTree = "<group>"; };
 		28B80BB0191619DF007EF5C5 /* 账户说明.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "账户说明.png"; sourceTree = "<group>"; };
 		28B80BB1191619DF007EF5C5 /* 返回键.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "返回键.png"; sourceTree = "<group>"; };
@@ -3843,7 +3843,7 @@
 				28B80BAB191619DF007EF5C5 /* 微信亮.png */,
 				28B80BAC191619DF007EF5C5 /* 新浪 不亮.png */,
 				28B80BAD191619DF007EF5C5 /* 新浪亮.png */,
-				28B80BAE191619DF007EF5C5 /* 灰底.png */,
+				28B80BAE191619DF007EF5C5 /* gray_bg.png */,
 				28B80BAF191619DF007EF5C5 /* 矩形 1.png */,
 				28B80BB0191619DF007EF5C5 /* 账户说明.png */,
 				28B80BB1191619DF007EF5C5 /* 返回键.png */,
@@ -7344,7 +7344,7 @@
 				B594A15F183E0573007904F6 /* graybar_blank.png in Resources */,
 				28B80C78191619E0007EF5C5 /* 返回键.png in Resources */,
 				B594A160183E0573007904F6 /* grzy_1.png in Resources */,
-				28B80C64191619DF007EF5C5 /* 灰底.png in Resources */,
+				28B80C64191619DF007EF5C5 /* gray_bg.png in Resources */,
 				B594A161183E0573007904F6 /* grzy_10.png in Resources */,
 				B594A162183E0573007904F6 /* grzy_11.png in Resources */,
 				28B80C41191619DF007EF5C5 /* 支付宝4.png in Resources */,
