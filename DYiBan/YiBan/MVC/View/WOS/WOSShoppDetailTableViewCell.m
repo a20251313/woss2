@@ -15,6 +15,7 @@
 
 @implementation WOSShoppDetailTableViewCell
 @synthesize delegate;
+@synthesize canAddOrder;    //是否可以点击订单
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -59,6 +60,7 @@
     DYBSetButton *btn = [[DYBSetButton alloc]initWithFrame:CGRectMake(510/2, 10.0f, 107/2, 60/2)];
     [btn setImage:image forState:UIControlStateNormal];
     btn.sender = dict;
+    btn.enabled = canAddOrder;
     [btn addTarget:self action:@selector(doAdd:) forControlEvents:UIControlEventTouchUpInside];
     [self.contentView addSubview:btn];
     RELEASE(btn);

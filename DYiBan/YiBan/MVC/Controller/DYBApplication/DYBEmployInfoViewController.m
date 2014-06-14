@@ -141,7 +141,7 @@
 -(void)createSectionHeaderView:(MagicViewSignal *)signal
 {
     NSDictionary *dict = (NSDictionary *)[signal object];
-    UITableView *tableView = [dict objectForKey:@"tableView"];
+  //  UITableView *tableView = [dict objectForKey:@"tableView"];
     NSInteger section = [[dict objectForKey:@"section"] integerValue];
     
     UIImage *img=[UIImage imageNamed:@"graybar_blank.png.png"];
@@ -276,7 +276,7 @@ static NSString *cellName = @"cellName";//前4个cell
     }else if ([signal is:[MagicUITableView TABLENUMOFSEC]])//numberOfSectionsInTableView
     {
         NSDictionary *dict = (NSDictionary *)[signal object];
-        NSIndexPath *indexPath = [dict objectForKey:@"indexPath"];
+      //  NSIndexPath *indexPath = [dict objectForKey:@"indexPath"];
         UITableView *tableView = [dict objectForKey:@"tableView"];
         
         if ([tableView isOneSection]) {/*一个section模式*/
@@ -344,7 +344,7 @@ static NSString *cellName = @"cellName";//前4个cell
     {
         NSDictionary *dict = (NSDictionary *)[signal object];
         UITableView *tableView = [dict objectForKey:@"tableView"];
-        NSInteger section = [[dict objectForKey:@"section"] integerValue];
+       // NSInteger section = [[dict objectForKey:@"section"] integerValue];
         
         if ([tableView isOneSection]) {/*一个section模式*/
             
@@ -414,7 +414,7 @@ static NSString *cellName = @"cellName";//前4个cell
     }
     else if ([signal is:[MagicUITableView TAbLEVIEWLODATA]])//加载更多
     {
-        MagicUITableView *tableView = (MagicUITableView *)[signal source];
+       // MagicUITableView *tableView = (MagicUITableView *)[signal source];
         switch (_i_cellType) {
             case 0://就业信息
             {
@@ -465,7 +465,7 @@ static NSString *cellName = @"cellName";//前4个cell
     else if ([signal is:[MagicUITableView TABLEVIEWUPDATA]])//刷新
     {
         
-        MagicUITableView *tableView = (MagicUITableView *)[signal source];
+      //  MagicUITableView *tableView = (MagicUITableView *)[signal source];
         
         switch (_i_cellType) {
             case 0://就业信息
@@ -529,7 +529,7 @@ static NSString *cellName = @"cellName";//前4个cell
         NSDictionary *dict = (NSDictionary *)[signal object];
         UITableView *tableview = [dict objectForKey:@"tableView"];
         NSString *title = [dict objectForKey:@"title"];
-        NSInteger index = [[dict objectForKey:@"index"] integerValue];
+       // NSInteger index = [[dict objectForKey:@"index"] integerValue];
         
         //在数据源的下标
         NSInteger count = 0;
@@ -833,7 +833,7 @@ static NSString *cellName = @"cellName";//前4个cell
 - (void)handleViewSignal_UIView:(MagicViewSignal *)signal
 {
     if ([signal is:[UIView TAP]]) {//单击信号
-        NSDictionary *d=(NSDictionary *)signal.object;
+     //   NSDictionary *d=(NSDictionary *)signal.object;
         DYBCustomLabel *lb=(DYBCustomLabel *)signal.source;
         
         if (lb==_lb_ViewNums) {//浏览
@@ -1042,7 +1042,7 @@ static NSString *cellName = @"cellName";//前4个cell
         
     }else if ([signal is:[MagicUISearchBar CHANGEWORD]]){//内容改变
         NSString *str=(NSString *)signal.object;
-        MagicUISearchBar *search=(MagicUISearchBar *)signal.source;
+       // MagicUISearchBar *search=(MagicUISearchBar *)signal.source;
         
         if ([str length] == 0) {//删除完search里的内容
           
@@ -1070,7 +1070,7 @@ static NSString *cellName = @"cellName";//前4个cell
                 {
 //                    NSDictionary *d=[response.data objectForKey:@"user_list"];
                     NSArray *list=[response.data objectForKey:@"top"];//0号section 小编推荐 的数据
-                    if (_muA_editorRecommend.count>0 /*&& ((NSArray *)[_tbv.muD_allSectionValues objectForKey:[_tbv.muA_allSectionKeys objectAtIndex:0]]).count >0/*0号section有数据*/&& list.count>0) {//刷新  小编推荐 section数据
+                    if (_muA_editorRecommend.count>0 /*&& ((NSArray *)[_tbv.muD_allSectionValues objectForKey:[_tbv.muA_allSectionKeys objectAtIndex:0]]).count >0*//*0号section有数据*/&& list.count>0) {//刷新  小编推荐 section数据
                         
                         [_muA_editorRecommend removeAllObjects];
                         [((NSMutableArray *)[_tbv.muD_allSectionValues objectForKey:[_tbv.muA_allSectionKeys objectAtIndex:0]]) removeAllObjects];
@@ -1089,7 +1089,7 @@ static NSString *cellName = @"cellName";//前4个cell
                     }
                     
                     NSArray *list_1=[response.data objectForKey:@"list"];//1号section 最新职位 的数据
-                    if (_muA_newOffer.count>1 /*&& ((NSArray *)[_tbv.muD_allSectionValues objectForKey:[_tbv.muA_allSectionKeys objectAtIndex:1]]).count >0/*1号section有数据*/&& list_1.count>0) {
+                    if (_muA_newOffer.count>1 /*&& ((NSArray *)[_tbv.muD_allSectionValues objectForKey:[_tbv.muA_allSectionKeys objectAtIndex:1]]).count >0*//*1号section有数据*/&& list_1.count>0) {
                         
                         [_muA_newOffer removeAllObjects];
                         [((NSMutableArray *)[_tbv.muD_allSectionValues objectForKey:[_tbv.muA_allSectionKeys objectAtIndex:1]]) removeAllObjects];

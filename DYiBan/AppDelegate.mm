@@ -201,10 +201,10 @@
 - (void)initAppdelegate
 {
 
-    NSString *str = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey];
-    NSArray *a = [str componentsSeparatedByString:@"."];
-    NSString *intStr = [@"" stringByAppendingFormat:@"%@%@%@",[a objectAtIndex:0],[a objectAtIndex:1],[a objectAtIndex:2]];
-    int vers = [intStr intValue];
+   // NSString *str = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey];
+  //  NSArray *a = [str componentsSeparatedByString:@"."];
+ //   NSString *intStr = [@"" stringByAppendingFormat:@"%@%@%@",[a objectAtIndex:0],[a objectAtIndex:1],[a objectAtIndex:2]];
+   // int vers = [intStr intValue];
     
 //    if([[[NSUserDefaults standardUserDefaults] valueForKey:@"version"] intValue] < vers){
 //        

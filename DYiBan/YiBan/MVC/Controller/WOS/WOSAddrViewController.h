@@ -8,7 +8,9 @@
 
 #import "DYBBaseViewController.h"
 #import "WOSAdrrDrtailView.h"
+#import "WOSPayViewController.h"
 
 @interface WOSAddrViewController : DYBBaseViewController<UITableViewDataSource,UITableViewDelegate,WOSAdrrDrtailViewDelegate>
+@property(nonatomic,retain)WOSPayViewController *payController;
 
 @end

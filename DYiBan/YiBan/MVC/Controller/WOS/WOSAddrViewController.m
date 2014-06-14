@@ -178,6 +178,13 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
+    
+    if (self.payController)
+    {
+        [self.payController setAddress:arrayAddrList[indexPath.row]];
+        [self.drNavigationController popViewControllerAnimated:YES];
+        return;
+    }
     WOSAddrCell *cell = (WOSAddrCell *)[tableView cellForRowAtIndexPath:indexPath];
     
     

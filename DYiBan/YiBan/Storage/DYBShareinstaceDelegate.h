@@ -30,8 +30,18 @@
 //初始化dateformatter
 @property (nonatomic, readonly)NSDateFormatter *dateFormatter;
 @property (nonatomic, readonly)NSString *imei;
+@property (nonatomic, retain)NSString *username;
+@property (nonatomic, retain)NSString *email;
+@property (nonatomic, retain)NSString *phone;
+@property (nonatomic, retain)NSString *points;
+
+
+
 
 + (DYBShareinstaceDelegate *)sharedInstace;
+
+
+-(void)setUserInfoFromLoginDic:(NSDictionary*)dicInfo;
 
 //删除数据库
 - (void)deleteSql;
@@ -81,5 +91,10 @@
 +(NSString *)addIPImage:(NSString *)string;
 
 +(double)getDsitance_lat_a:(double)x1 lng_a:(double)y1 lat_b:(double)x2 lng_b:(double)y2;
+
+
+
+-(void)storeUserImage:(UIImage*)image;
+-(UIImage*)getUserImage;
 
 @end

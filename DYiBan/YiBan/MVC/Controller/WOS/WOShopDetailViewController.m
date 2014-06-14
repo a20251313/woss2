@@ -35,11 +35,15 @@
     UIButton  *btnCollect ;
 }
 
-@end
+@property(nonatomic,retain)NSString   *startTime;
+@property(nonatomic,retain)NSString   *endTime;
 
+@end
 @implementation WOShopDetailViewController
 
 @synthesize dictInfo = _dictInfo;
+@synthesize startTime;
+@synthesize endTime;
 DEF_SIGNAL(BTNONE);
 DEF_SIGNAL(BTNTWO);
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -116,23 +120,26 @@ DEF_SIGNAL(BTNTWO);
 -(void)creatTopView:(NSDictionary *)dict{
 
     UILabel *labelBanner = [[UILabel alloc]initWithFrame:CGRectMake(10.0f, self.headHeight, 300.0f, 116/2)];
-    [labelBanner setText:@"testtttttt"];
+    [labelBanner setText:[dict objectForKey:@"summary"]];
     [self.view addSubview:labelBanner];
      [labelBanner setBackgroundColor:[UIColor clearColor]];
     RELEASE(labelBanner);
     
-    UILabel *labelDistance = [[UILabel alloc]initWithFrame:CGRectMake(10.0f, self.headHeight + 116/2 , 100.0f, 30)];
-    [labelDistance setText:@"3.2km"];
+    
+    
+    UILabel *labelDistance = [[UILabel alloc]initWithFrame:CGRectMake(10.0f, self.headHeight + 116/2 , 140.0f, 30)];
+    [labelDistance setText:@"距离我3.2Km"];
     [self.view addSubview:labelDistance];
+    [labelDistance setFont:[UIFont systemFontOfSize:13]];
     [labelDistance setBackgroundColor:[UIColor clearColor]];
     RELEASE(labelDistance);
     
     
-    UILabel *labelQian = [[UILabel alloc]initWithFrame:CGRectMake(100.0f, self.headHeight + 116/2 , 100.0f, 30)];
+    /*UILabel *labelQian = [[UILabel alloc]initWithFrame:CGRectMake(100.0f, self.headHeight + 116/2 , 100.0f, 30)];
     [labelQian setText:[NSString stringWithFormat:@"%@元起送",[dict objectForKey:@"deliverFee"]]];
     [self.view addSubview:labelQian];
     [labelQian setBackgroundColor:[UIColor clearColor]];
-    RELEASE(labelQian);
+    RELEASE(labelQian);*/
     
     
 
@@ -152,17 +159,42 @@ DEF_SIGNAL(BTNTWO);
     [self.view addSubview:btnCollect];
     RELEASE(btnCollect);
     
-    UILabel *labelCellect1 = [[UILabel alloc]initWithFrame:CGRectMake(537/2 - 30, CGRectGetHeight(btnCollect.frame) +CGRectGetMinY(btnCollect.frame) + 10, 100.0f, 30)];
+    UILabel *labelCellect1 = [[UILabel alloc]initWithFrame:CGRectMake(537/2 - 30, CGRectGetHeight(btnCollect.frame) +CGRectGetMinY(btnCollect.frame), btnCollect.frame.size.width+60, 21)];
     [labelCellect1 setText:[NSString stringWithFormat:@"%@收藏",[dict objectForKey:@"favorTimes"] ]];
+    [labelCellect1 setTextAlignment:NSTextAlignmentCenter];
     [self.view addSubview:labelCellect1];
     RELEASE(labelCellect1);
 
-    UILabel *labelTime = [[UILabel alloc]initWithFrame:CGRectMake(200.0f, CGRectGetMinY(labelCellect1.frame) + CGRectGetHeight(labelCellect1.frame) - 15, 120.0f, 30.0f)];
-    [labelTime setText:[NSString stringWithFormat:@"%@ -- %@",[dict objectForKey:@"businessTimeBegin"],[dict objectForKey:@"businessTimeEnd"]]];
-    [labelTime setFont:[UIFont systemFontOfSize:14]];
+    
+
+    UILabel *labelTime = [[UILabel alloc]initWithFrame:CGRectMake(180.0f,self.headHeight + 116/2, 140.0f, 30.0f)];
+    [labelTime setText:[NSString stringWithFormat:@"营业时间 %@ - %@",[self getCurrentHourTime:[dict objectForKey:@"businessTimeBegin"]],[self getCurrentHourTime:[dict objectForKey:@"businessTimeEnd"]]]];
+    self.startTime = [dict objectForKey:@"businessTimeBegin"];
+    self.endTime = [dict objectForKey:@"businessTimeEnd"];
+    [labelTime setFont:[UIFont systemFontOfSize:13]];
     [self.view addSubview:labelTime];
     RELEASE(labelTime);
     
+}
+
+-(NSString*)getCurrentHourTime:(NSString*)strDate
+{
+    
+    NSString    *strReturn = nil;
+    for (int i = 0; i < [strDate length];)
+    {
+        if (!strReturn)
+        {
+            strReturn = [strDate substringWithRange:NSMakeRange(i, 2)];
+        }else
+        {
+            strReturn = [NSString stringWithFormat:@"%@:%@",strReturn,[strDate substringWithRange:NSMakeRange(i, 2)]];
+        }
+        i = i+2;
+        
+    }
+    
+    return strReturn;
 }
 
 
@@ -612,6 +644,11 @@ DEF_SIGNAL(BTNTWO);
 {
     if ([signal is:[DYBBaseViewController BACKBUTTON]])
     {
+        
+        AppDelegate *appd = appDelegate;
+        
+        UIView *viewBtn = [appd.window viewWithTag:80800];
+        viewBtn.hidden = YES;
         [self.drNavigationController popViewControllerAnimated:YES];
         
     }else if ([signal is:[DYBBaseViewController NEXTSTEPBUTTON]]){
@@ -621,8 +658,39 @@ DEF_SIGNAL(BTNTWO);
 }
 
 
+-(BOOL)canAddToOrder
+{
+    NSString    *mystartTime  = [self getCurrentHourTime:self.startTime];
+    NSString    *myendTime = [self getCurrentHourTime:self.endTime];
+    
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateFormat:@"HH:mm"];
+    [dateFormat setLocale:[NSLocale currentLocale]];
+    [dateFormat setTimeZone:[NSTimeZone localTimeZone]];
+    
+    
+    
+    NSDate  *current = [NSDate date];
+    
+    NSString   *currentString = [dateFormat stringFromDate:current];
+    DLogInfo(@"currentString:%@",currentString);
+    
+    NSDate *datestart = [dateFormat dateFromString:mystartTime];
+    NSDate *dateend = [dateFormat dateFromString:myendTime];
+    NSDate *dateCu = [dateFormat dateFromString:currentString];
+    
+    if ([dateCu compare:datestart] == NSOrderedDescending && [dateCu compare:dateend] == NSOrderedAscending)
+    {
+     
+        return YES;
+    }
+    
+    return NO;
+    
+}
+
 #pragma mark- 只接受UITableView信号
-static NSString *cellName = @"cellName";
+//static NSString *cellName = @"cellName";
 
 - (void)handleViewSignal_MagicUITableView:(MagicViewSignal *)signal
 {
@@ -661,17 +729,21 @@ static NSString *cellName = @"cellName";
         [cell creatCell:dictInfoFood];
         DLogInfo(@"%d", indexPath.section);
         cell.delegate = self;
+        cell.canAddOrder = [self canAddToOrder];
         [cell creatCell:[arrayFoodList objectAtIndex:indexPath.row]];
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         [signal setReturnValue:cell];
         
     }else if([signal is:[MagicUITableView TABLEDIDSELECT]])/*选中cell*/{
+        
+        
         NSDictionary *dict = (NSDictionary *)[signal object];
         NSIndexPath *indexPath = [dict objectForKey:@"indexPath"];
         
         
         WOSFoodDetailViewController *foodDetail = [[WOSFoodDetailViewController alloc]init];
         [foodDetail setDictInfo:[[arrayFoodList objectAtIndex:indexPath.row] objectForKey:@"foodIndex"]];
+        foodDetail.canAddOrder = [self canAddToOrder];
         foodDetail.dictShop = dictResult;
         [self.drNavigationController pushViewController:foodDetail animated:YES];
         RELEASE(foodDetail);
@@ -732,8 +804,8 @@ static NSString *cellName = @"cellName";
                     dictResult = [[NSDictionary alloc]initWithDictionary:dict];
                     
                     arrayFoodList = [dictResult objectForKey:@"hotFoodList"];
-                    [_tableView reloadData];
                     [self creatTopView:dictResult];
+                    [_tableView reloadData];
 //                     [self creatView:dict];
 //                    UIButton *btn = (UIButton *)[UIButton buttonWithType:UIButtonTypeCustom];
 //                    [btn setTag:10];

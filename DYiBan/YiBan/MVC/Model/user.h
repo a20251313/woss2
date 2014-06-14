@@ -11,6 +11,7 @@
 #import "album.h"
 @interface user : MagicJSONReflection
 @property (retain, nonatomic) NSString *id;
+@property (retain, nonatomic) NSString *userIndex;
 @property (retain, nonatomic) NSString *userid;
 @property (retain, nonatomic) NSString *name;/*昵称*/
 @property (nonatomic,copy) NSString *username/*用户名*/,*email;//邮箱
@@ -86,6 +87,9 @@
 @property (retain, nonatomic) NSString *isSameSchool;//和当前登录用户是否是  校友
 
 
+
+
+-(void)setUserInfoFromLoginDic:(NSDictionary*)dicInfo;
 //+(Class)album_class;
 //+(Class)eclasses_class;
 @end

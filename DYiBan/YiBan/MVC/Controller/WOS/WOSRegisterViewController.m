@@ -9,13 +9,14 @@
 #import "WOSRegisterViewController.h"
 #import "DYBInputView.h"
 #import "CALayer+Custom.h"
+#import "NSString+SBJSON.h"
 
 
 
 @interface WOSRegisterViewController (){
 
-    DYBInputView * _phoneInputName;
-
+    DYBInputView    * _phoneInputName;
+    UIScrollView    *scrollView;
 }
 
 @end
@@ -71,10 +72,10 @@
         
         [self.view setBackgroundColor:[UIColor clearColor]];
         
-        UIScrollView *scrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0.0f, 0.0f, 320.0f, self.view.frame.size.height)];
+        scrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0.0f, 0.0f, 320.0f, self.view.frame.size.height)];
         [scrollView setContentSize: CGSizeMake(320.0f, self.view.frame.size.height * 1.5)];
         [self.view addSubview:scrollView];
-        RELEASE(scrollView);
+
         
         [scrollView addSubview:imageViewIcon];
         [imageViewIcon release];
@@ -99,10 +100,11 @@
 
         [imageViewName2 addSubview:label1];
         
-     DYBInputView   *input1 = [[DYBInputView alloc]initWithFrame:CGRectMake(60, 0, INPUTWIDTH, INPUTHEIGHT) placeText:@"填写姓名" textType:0];
+     DYBInputView   *input1 = [[DYBInputView alloc]initWithFrame:CGRectMake(60, 0, INPUTWIDTH, INPUTHEIGHT) placeText:@"或其他个性用户名" textType:0];
         [input1.layer AddborderByIsMasksToBounds:YES cornerRadius:4 borderWidth:1 borderColor:[[UIColor clearColor] CGColor]];
 //        [input1.nameField setText:@""];
         [input1.nameField setTextColor:[UIColor whiteColor]];
+        input1.tag =  1000;
         [input1 setBackgroundColor:[UIColor clearColor]];
         [imageViewName2 addSubview:input1];
         RELEASE(input1)
@@ -124,16 +126,18 @@
         RELEASE(imageViewName);
         
         UILabel *labelName = [[UILabel alloc]initWithFrame:CGRectMake(5.0f, 0.0f,  70 , imageK.size.height/2/2)];
-        [labelName setText:@"密码："];
+       [labelName setText:@"密码："];
         [labelName setBackgroundColor:[UIColor clearColor]];
         [labelName setTextColor:[UIColor colorWithRed:40.0f/255 green:191.0f/255 blue:140.0f/255 alpha:1.0f]];
         [imageViewName addSubview:labelName];
         RELEASE(labelName);
         
         
-        _phoneInputName = [[DYBInputView alloc]initWithFrame:CGRectMake(60, 0, INPUTWIDTH, INPUTHEIGHT) placeText:@"请填写密码" textType:0];
+        _phoneInputName = [[DYBInputView alloc]initWithFrame:CGRectMake(60, 0, INPUTWIDTH, INPUTHEIGHT) placeText:@"请设置密码" textType:0];
         [_phoneInputName.layer AddborderByIsMasksToBounds:YES cornerRadius:4 borderWidth:1 borderColor:[[UIColor clearColor] CGColor]];
         [_phoneInputName.nameField setText:@"zxw1"];
+        _phoneInputName.nameField.secureTextEntry = YES;
+        _phoneInputName.tag = 1001;
         [_phoneInputName.nameField setTextColor:[UIColor whiteColor]];
         [_phoneInputName setBackgroundColor:[UIColor clearColor]];
         [imageViewName addSubview:_phoneInputName];
@@ -146,9 +150,11 @@
         [imageViewName addSubview:labelmima];
         RELEASE(labelmima);
         
-      DYBInputView*  _phoneInputAddr = [[DYBInputView alloc]initWithFrame:CGRectMake(60, imageK.size.height/2/2/2+ 15, INPUTWIDTH, INPUTHEIGHT) placeText:@"确认密码" textType:0];
+      DYBInputView*  _phoneInputAddr = [[DYBInputView alloc]initWithFrame:CGRectMake(60, imageK.size.height/2/2/2+ 15, INPUTWIDTH, INPUTHEIGHT) placeText:@"请再次输入密码" textType:0];
         [_phoneInputAddr.layer AddborderByIsMasksToBounds:YES cornerRadius:4 borderWidth:1 borderColor:[[UIColor clearColor] CGColor]];
         [_phoneInputAddr.nameField setText:@"zxw1"];
+        _phoneInputAddr.tag = 1002;
+        _phoneInputAddr.nameField.secureTextEntry = YES;
         [_phoneInputAddr.nameField setTextColor:[UIColor whiteColor]];
         [_phoneInputAddr setBackgroundColor:[UIColor clearColor]];
         [imageViewName addSubview:_phoneInputAddr];
@@ -169,11 +175,12 @@
 
         [imageViewName22 addSubview:label11];
         
-        DYBInputView   *input11 = [[DYBInputView alloc]initWithFrame:CGRectMake(60, 0, INPUTWIDTH, INPUTHEIGHT) placeText:@"填写手机号码" textType:0];
+        DYBInputView   *input11 = [[DYBInputView alloc]initWithFrame:CGRectMake(60, 0, INPUTWIDTH, INPUTHEIGHT) placeText:@"方便确认订单" textType:0];
         [input11.layer AddborderByIsMasksToBounds:YES cornerRadius:4 borderWidth:1 borderColor:[[UIColor clearColor] CGColor]];
         //        [input1.nameField setText:@""];
         [input11.nameField setTextColor:[UIColor whiteColor]];
         [input11 setBackgroundColor:[UIColor clearColor]];
+        input11.tag = 1003;
         [imageViewName22 addSubview:input11];
         RELEASE(input11)
         
@@ -192,10 +199,11 @@
         
         [imageViewName222 addSubview:label111];
         
-        DYBInputView   *input111 = [[DYBInputView alloc]initWithFrame:CGRectMake(60, 0, INPUTWIDTH, INPUTHEIGHT) placeText:@"填写邮箱" textType:0];
+        DYBInputView   *input111 = [[DYBInputView alloc]initWithFrame:CGRectMake(60, 0, INPUTWIDTH, INPUTHEIGHT) placeText:@"方便确认订单" textType:0];
         [input111.layer AddborderByIsMasksToBounds:YES cornerRadius:4 borderWidth:1 borderColor:[[UIColor clearColor] CGColor]];
         //        [input1.nameField setText:@""];
         [input111.nameField setTextColor:[UIColor whiteColor]];
+        input111.tag = 1004;
         [input111 setBackgroundColor:[UIColor clearColor]];
         [imageViewName222 addSubview:input111];
         RELEASE(input111)
@@ -224,11 +232,207 @@
     }
 }
 
+
+
+- (void)handleViewSignal_MagicUITextField:(MagicViewSignal *)signal
+{
+    if ([signal is:[MagicUITextField TEXTFIELDDIDBEGINEDITING]])
+    {
+        
+        CGRect frame =  scrollView.frame;
+        frame.origin.y = -80;
+        [UIView animateWithDuration:0.3 animations:^{
+            scrollView.frame = frame;
+        }];
+      //  [signal setCenter:CGPointMake(160.0f, 140.0)]; //test
+        
+    }else if ([signal is:[MagicUITextField TEXTFIELDSHOULDRETURN]])
+    {
+        [self.view endEditing:YES];
+        
+        CGRect frame =  scrollView.frame;
+        frame.origin.y = 0;
+        [UIView animateWithDuration:0.3 animations:^{
+            scrollView.frame = frame;
+        }];
+    }
+}
+
 -(void)addOK{
 
+    if ([self checkInputIsValid])
+    {
+        
+        DYBInputView    *name = (DYBInputView*)[scrollView viewWithTag:1000];
+        DYBInputView    *pwd = (DYBInputView*)[scrollView viewWithTag:1001];
+        DYBInputView    *phone = (DYBInputView*)[scrollView viewWithTag:1003];
+        DYBInputView    *email = (DYBInputView*)[scrollView viewWithTag:1004];
+        
+        NSString    *strName = name.nameField.text;
+        NSString    *strpwd = pwd.nameField.text;
+        NSString    *strPhone = phone.nameField.text;
+        NSString    *strEmail = email.nameField.text;
+        
+        
+        
+        MagicRequest *request = [DYBHttpMethod wosRegion_nickName:strName  passwd:strpwd sex:@"1" email:strEmail phone:strPhone sAlert:YES receive:self];
+        [request setTag:3];
+        
+    }
 
 }
 
+
+-(BOOL)checkInputIsValid
+{
+    DYBInputView    *name = (DYBInputView*)[scrollView viewWithTag:1000];
+    DYBInputView    *pwd = (DYBInputView*)[scrollView viewWithTag:1001];
+    DYBInputView    *secpwd = (DYBInputView*)[scrollView viewWithTag:1002];
+    DYBInputView    *phone = (DYBInputView*)[scrollView viewWithTag:1003];
+    DYBInputView    *email = (DYBInputView*)[scrollView viewWithTag:1004];
+    
+    NSString    *strName = name.nameField.text;
+    NSString    *strpwd = pwd.nameField.text;
+    NSString    *strSecpwd = secpwd.nameField.text;
+    NSString    *strPhone = phone.nameField.text;
+    NSString    *strEmail = email.nameField.text;
+    
+    
+    if ([strName length] < 1)
+    {
+        [self popText:@"昵称不能为空"];
+        return NO;
+    }
+    if ([strpwd length] < 6)
+    {
+        [self popText:@"密码长度不合法，必须大于6位"];
+        return NO;
+    }
+    if ([strSecpwd length] < 6)
+    {
+        [self popText:@"请重新输入确认密码"];
+        return NO;
+    }
+    if (![strSecpwd isEqualToString:strpwd])
+    {
+        [self popText:@"两次输入密码不一致"];
+        return NO;
+    }
+    if ([strPhone length] < 11)
+    {
+        [self popText:@"手机号码不合法"];
+        return NO;
+    }
+    if ([strEmail length] < 1)
+    {
+        [self popText:@"请输入邮箱"];
+        return NO;
+    }
+    
+    if (![self isMobileNumber:strPhone])
+    {
+        [self popText:@"手机号码不合法"];
+        return NO;
+        
+    }
+    
+    if (![self checkEmailFormat:strEmail])
+    {
+        [self popText:@"请输入邮箱"];
+        return NO;
+    }
+    
+    return YES;
+}
+
+
+
+- (BOOL)checkEmailFormat:(NSString *)email
+{
+    NSString *emailRegex = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";
+    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex];
+    
+    return [emailTest evaluateWithObject:email];
+}
+
+
+
+
+-(BOOL)isMobileNumber:(NSString *)mobileNum
+{
+    NSString * MOBILE = @"^1(3[0-9]|5[0-35-9]|8[025-9])\\d{8}$";
+    NSString * CM = @"^1(34[0-8]|(3[5-9]|5[017-9]|8[278])\\d)\\d{7}$";
+    NSString * CU = @"^1(3[0-2]|5[256]|8[56])\\d{8}$";
+    NSString * CT = @"^1((33|53|8[09])[0-9]|349)\\d{7}$";
+    // NSString * PHS = @"^0(10|2[0-5789]|\\d{3})\\d{7,8}$";
+    NSPredicate *regextestmobile = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", MOBILE];
+    NSPredicate *regextestcm = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", CM];
+    NSPredicate *regextestcu = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", CU];
+    NSPredicate *regextestct = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", CT];
+    if (([regextestmobile evaluateWithObject:mobileNum] == YES)
+        || ([regextestcm evaluateWithObject:mobileNum] == YES)
+        || ([regextestct evaluateWithObject:mobileNum] == YES)
+        || ([regextestcu evaluateWithObject:mobileNum] == YES))
+    {
+        return YES;
+    }
+    else
+    {
+        return NO;
+    }
+}
+
+-(void)popText:(NSString*)popText
+{
+    [DYBShareinstaceDelegate popViewText:popText target:self hideTime:1.0f isRelease:YES mode:MagicPOPALERTVIEWINDICATOR];
+}
+-(void)dealloc
+{
+    [scrollView release];
+    scrollView = nil;
+    [super dealloc];
+}
+
+
+
+#pragma mark- HTTP
+#pragma mark- 只接受HTTP信号
+- (void)handleRequest:(MagicRequest *)request receiveObj:(id)receiveObj
+{
+    
+    if ([request succeed])
+    {
+        //        JsonResponse *response = (JsonResponse *)receiveObj;
+        if(request.tag == 3){
+            
+            NSDictionary *dict = [request.responseString JSONValue];
+            
+            if (dict) {
+                BOOL result = [[dict objectForKey:@"result"] boolValue];
+                if (!result) {
+                     [DYBShareinstaceDelegate popViewText:@"注册成功" target:self hideTime:.5f isRelease:YES mode:MagicPOPALERTVIEWINDICATOR];
+                  
+                    [self.drNavigationController popViewControllerAnimated:YES];
+                }
+                else{
+                    NSString *strMSG = [dict objectForKey:@"message"];
+                    
+                    [DYBShareinstaceDelegate popViewText:strMSG target:self hideTime:.5f isRelease:YES mode:MagicPOPALERTVIEWINDICATOR];
+                    
+                    
+                }
+            }
+            
+        } else{
+            NSDictionary *dict = [request.responseString JSONValue];
+            NSString *strMSG = [dict objectForKey:@"message"];
+            
+            [DYBShareinstaceDelegate popViewText:strMSG target:self hideTime:.5f isRelease:YES mode:MagicPOPALERTVIEWINDICATOR];
+            
+            
+        }
+    }
+}
 /*
 #pragma mark - Navigation
 

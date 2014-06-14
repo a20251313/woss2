@@ -137,7 +137,7 @@ static NSString *cellName = @"cellName";//前4个cell
     }else if ([signal is:[MagicUITableView TABLENUMOFSEC]])//numberOfSectionsInTableView
     {
         NSDictionary *dict = (NSDictionary *)[signal object];
-        NSIndexPath *indexPath = [dict objectForKey:@"indexPath"];
+       // NSIndexPath *indexPath = [dict objectForKey:@"indexPath"];
         UITableView *tableView = [dict objectForKey:@"tableView"];
         
         if ([tableView isOneSection]) {/*一个section模式*/
@@ -205,7 +205,7 @@ static NSString *cellName = @"cellName";//前4个cell
     {
         NSDictionary *dict = (NSDictionary *)[signal object];
         UITableView *tableView = [dict objectForKey:@"tableView"];
-        NSInteger section = [[dict objectForKey:@"section"] integerValue];
+        //NSInteger section = [[dict objectForKey:@"section"] integerValue];
         
         if ([tableView isOneSection]) {/*一个section模式*/
             
@@ -262,13 +262,13 @@ static NSString *cellName = @"cellName";//前4个cell
     }
     else if ([signal is:[MagicUITableView TAbLEVIEWLODATA]])//加载更多
     {
-        MagicUITableView *tableView = (MagicUITableView *)[signal source];
+      //  MagicUITableView *tableView = (MagicUITableView *)[signal source];
         
     }
     else if ([signal is:[MagicUITableView TABLEVIEWUPDATA]])//刷新
     {
         
-        MagicUITableView *tableView = (MagicUITableView *)[signal source];
+      //  MagicUITableView *tableView = (MagicUITableView *)[signal source];
         
     }
     
@@ -285,7 +285,7 @@ static NSString *cellName = @"cellName";//前4个cell
         NSDictionary *dict = (NSDictionary *)[signal object];
         UITableView *tableview = [dict objectForKey:@"tableView"];
         NSString *title = [dict objectForKey:@"title"];
-        NSInteger index = [[dict objectForKey:@"index"] integerValue];
+       // NSInteger index = [[dict objectForKey:@"index"] integerValue];
         
         //在数据源的下标
         NSInteger count = 0;

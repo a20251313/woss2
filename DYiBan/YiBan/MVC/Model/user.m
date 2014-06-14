@@ -11,6 +11,7 @@
 @implementation user
 //static user *singleUser = nil;
 @synthesize userid;
+@synthesize userIndex;
 @synthesize name,username,email;
 @synthesize truename;
 @synthesize desc;
@@ -40,6 +41,9 @@
 @synthesize album_num;
 @synthesize friend_num;
 @synthesize info_rate,rsstag,canfriend,isfollow,isfriend,user_schoolname,phone,phone_private,birthday,birthday_private,hometown,sx,hometown_private,visit_private,community_sort,community_up,total_sort,total_up,register_time,college,user_schoolid,points,joinyear,sex,disturb_time,push_tag,background_pic,background_tag,userInfoPirvateString,is_moderator,distance,relation_desc,lat,lng,is_vip,id,user_college,avatarTopCount,avatarTreadCount,isFriend,isSameClass,isSameSchool;
+
+
+
 
 - (void)dealloc
 {

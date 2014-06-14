@@ -14,19 +14,29 @@
 #import "JSON.h"
 #import "WOSPayCardTableViewCell.h"
 #import "WOSLogInViewController.h"
+#import "WOSAddrViewController.h"
+#import "WOSOrderLostViewController.h"
 
+#define NORMALBORDORCOLOR   [UIColor grayColor]
+#define HIGHLIGHTBORDORCOLOR   [UIColor yellowColor]
+#define TEXTCOLOR               [UIColor colorWithRed:40.0f/255 green:191.0f/255 blue:140.0f/255 alpha:1.0f]
 
-@interface WOSPayViewController (){
+@interface WOSPayViewController ()<UITextFieldDelegate>{
     NSMutableDictionary *dictOrder;
     AppDelegate *appde;
     NSArray *arrayCard;
     UITableView *_tableView1;
+    
+    UITextField *_textaddress;
+    UITextField *_textremark;
+    UIScrollView  *scrollView;
 }
 
+@property(nonatomic,retain)NSDictionary *dicAddInfo;
 @end
 
 @implementation WOSPayViewController
-
+@synthesize dicAddInfo;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -51,6 +61,15 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void)dealloc
+{
+    self.dicAddInfo = nil;
+    [scrollView release];
+    scrollView = nil;
+    [super dealloc];
+
+}
+
 -(void)handleViewSignal_MagicViewController:(MagicViewSignal *)signal{
     
     DLogInfo(@"name -- %@",signal.name);
@@ -58,7 +77,7 @@
     if ([signal is:[MagicViewController LAYOUT_VIEWS]])
     {
         //        [self.rightButton setHidden:YES];
-        [self.headview setTitle:@"确认付款"];
+        [self.headview setTitle:@"确认订单"];
         
 
         
@@ -73,15 +92,20 @@
           appde= appDelegate;
         [self.rightButton setHidden:YES];
 //        arrayCard = [[NSArray alloc]init];
-        
-        UIScrollView *scrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0.0f, 0.0f, 320.0f, self.view.frame.size.height)];
+       
+        if (scrollView)
+        {
+            [scrollView release];
+            scrollView = nil;
+        }
+       scrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0.0f,self.headHeight+10, 320.0f, self.view.frame.size.height)];
         [self.view addSubview:scrollView];
         RELEASE(scrollView);
         
         
         dictOrder = [[NSMutableDictionary alloc]init];
         
-        UILabel *labelName = [[UILabel alloc]initWithFrame:CGRectMake(10.0f, self.headHeight + 20, 250.0, 30.0f)];
+        UILabel *labelName = [[UILabel alloc]initWithFrame:CGRectMake(10.0f,10, 250.0, 30.0f)];
         [labelName setBackgroundColor:[UIColor clearColor]];
         NSString *strName = [[NSUserDefaults standardUserDefaults]objectForKey:@"shopname"];
         [labelName setText:strName];
@@ -92,112 +116,131 @@
         
         [self getData];
         
-        UITableView *_tableView = [[UITableView alloc]initWithFrame:CGRectMake(0.0f, self.headHeight + 50.0f, 320.0f, 100)];
+        UITableView *_tableView = [[UITableView alloc]initWithFrame:CGRectMake(0.0f,40, 320.0f, 100)];
         [_tableView setDataSource:self];
         [_tableView setDelegate:self];
         [_tableView setTag:101];
         [scrollView addSubview:_tableView];
-//        RELEASEOBJ(_tableView);
+       RELEASEOBJ(_tableView);
         
         
-        UILabel *labelSave = [[UILabel alloc]initWithFrame:CGRectMake(20.0f, CGRectGetHeight(_tableView.frame) + CGRectGetMinY(_tableView.frame) + 0,60, 20.0f)];
+        
+        CGFloat    fypoint = _tableView.frame.origin.y+100;
+        UILabel *labelSave = [[UILabel alloc]initWithFrame:CGRectMake(10.0f,fypoint,60, 20.0f)];
         [labelSave setBackgroundColor:[UIColor clearColor]];
-        [labelSave setText:@"优惠"];
+        [labelSave setText:@"优惠:"];
         [scrollView addSubview:labelSave];
-//        RELEASEOBJ(labelSave);
+        RELEASEOBJ(labelSave);
         
         
-        UILabel *labelTotal1 = [[UILabel alloc]initWithFrame:CGRectMake(250.0f, CGRectGetHeight(_tableView.frame) + CGRectGetMinY(_tableView.frame) , 70.0, 20.0f)];
-        [labelTotal1 setBackgroundColor:[UIColor clearColor]];
-        [labelTotal1 setTextColor:[UIColor colorWithRed:40.0f/255 green:191.0f/255 blue:140.0f/255 alpha:1.0f]];
+        UILabel *labelYouhui = [[UILabel alloc]initWithFrame:CGRectMake(250.0f, fypoint, 70.0, 20.0f)];
+        [labelYouhui setBackgroundColor:[UIColor clearColor]];
+        [labelYouhui setTextColor:[UIColor colorWithRed:40.0f/255 green:191.0f/255 blue:140.0f/255 alpha:1.0f]];
 
-        [labelTotal1 setText:[NSString stringWithFormat:@"%.2f",[self getTotal]]];
-        [scrollView addSubview:labelTotal1];
-//        RELEASEOBJ(labelTotal1);
+        [labelYouhui setText:[NSString stringWithFormat:@"%.2f",[self getYouhui]]];
+        [scrollView addSubview:labelYouhui];
+        labelYouhui.tag = 2000;
+        RELEASEOBJ(labelYouhui);
         
         
-        
-        UILabel *labelSaveNum = [[UILabel alloc]initWithFrame:CGRectMake(250.0f,CGRectGetHeight(labelTotal1.frame) + CGRectGetMinY(labelTotal1.frame) , 250.0, 20.0f)];
-        [labelSaveNum setBackgroundColor:[UIColor clearColor]];
-        [labelSaveNum setText:@"10"];
-        [scrollView addSubview:labelSaveNum];
-//        RELEASEOBJ(labelSaveNum);
-        
-        
-        UILabel *labelSave2 = [[UILabel alloc]initWithFrame:CGRectMake(10.0f, CGRectGetHeight(labelSaveNum.frame) + CGRectGetMinY(labelSaveNum.frame) , 250.0, 20.0f)];
+        fypoint += 30;
+        UILabel *labelSave2 = [[UILabel alloc]initWithFrame:CGRectMake(10.0f,fypoint, 250.0, 20.0f)];
         [labelSave2 setBackgroundColor:[UIColor clearColor]];
-        [labelSave2 setText:@"总计"];
+        [labelSave2 setText:@"总计:"];
         [scrollView addSubview:labelSave2];
-//        RELEASEOBJ(labelSave2);
+       RELEASEOBJ(labelSave2);
         
         
-        UILabel *labelName2 = [[UILabel alloc]initWithFrame:CGRectMake(270.0f, CGRectGetHeight(labelSaveNum.frame) + CGRectGetMinY(labelSaveNum.frame) , 250.0, 20.0f)];
-        [labelName2 setBackgroundColor:[UIColor clearColor]];
-        [labelName2 setText:@"110"];
-        [labelName2 setTextColor:[UIColor colorWithRed:40.0f/255 green:191.0f/255 blue:140.0f/255 alpha:1.0f]];
+        UILabel *labelTotal = [[UILabel alloc]initWithFrame:CGRectMake(250.0f,fypoint, 250.0, 20.0f)];
+        [labelTotal setBackgroundColor:[UIColor clearColor]];
+        [labelTotal setText:[NSString stringWithFormat:@"%0.2f",[self getTotal]]];
+        [labelTotal setTextColor:[UIColor colorWithRed:40.0f/255 green:191.0f/255 blue:140.0f/255 alpha:1.0f]];
+        [scrollView addSubview:labelTotal];
+        RELEASEOBJ(labelTotal);
 
-//        [labelName2 setTextColor:[UIColor colorWithRed:97.0f/255 green:97.0f/255 blue:97.0f/255 alpha:1.0]];
-        [scrollView addSubview:labelName2];
-//        RELEASEOBJ(labelName2);
-
-        UILabel *labelUserFree = [[UILabel alloc]initWithFrame:CGRectMake(10.0f, CGRectGetHeight(labelName2.frame) + CGRectGetMinY(labelName2.frame) , 250.0, 20.0f)];
+        fypoint += 40;
+        UILabel *labelUserFree = [[UILabel alloc]initWithFrame:CGRectMake(10.0f,fypoint, 250.0, 30.0f)];
         [labelUserFree setBackgroundColor:[UIColor clearColor]];
         [labelUserFree setText:@"使用优惠券"];
+        [labelUserFree setTextColor:[UIColor colorWithRed:40.0f/255 green:191.0f/255 blue:140.0f/255 alpha:1.0f]];
+        [labelUserFree setFont:[UIFont systemFontOfSize:20]];
+
  
         [scrollView addSubview:labelUserFree];
-//        RELEASEOBJ(labelUserFree);
+        RELEASEOBJ(labelUserFree);
         
-        UISwitch *switchFree = [[UISwitch alloc]initWithFrame:CGRectMake(270.0f, CGRectGetHeight(labelName2.frame) + CGRectGetMinY(labelName2.frame) + 5, 50.0f, 30.0f)];
+        UISwitch *switchFree = [[UISwitch alloc]initWithFrame:CGRectMake(250.0f,fypoint, 50.0f, 30.0f)];
         [switchFree addTarget:self action:@selector(doSwith:) forControlEvents:UIControlEventTouchUpInside];
+        switchFree.tag = 300;
         [scrollView addSubview:switchFree];
-//        RELEASEOBJ(switchFree);
+        RELEASEOBJ(switchFree);
         
         
         
         
-        _tableView1 = [[UITableView alloc]initWithFrame:CGRectMake(0.0f, CGRectGetHeight(switchFree.frame) + CGRectGetMinY(switchFree.frame) + 5, 320.0f, 90)];
+        fypoint += 30;
+        
+        
+        _tableView1 = [[UITableView alloc]initWithFrame:CGRectMake(0.0f,fypoint, 320.0f, 90)];
         [_tableView1 setDataSource:self];
         [_tableView1 setDelegate:self];
         [_tableView1 setBackgroundColor:[UIColor whiteColor]];
         [_tableView1 setTag:102];
         [scrollView addSubview:_tableView1];
-//        RELEASEOBJ(_tableView1);
+        RELEASEOBJ(_tableView1);
+        
+        
+        fypoint += 10+90;
+        UIImage *image = [UIImage imageNamed:@"jianhao"];
+        UIButton *btnAddress = [[UIButton alloc]initWithFrame:CGRectMake(20,  fypoint+2, image.size.width/2, image.size.height/2)];
+        //        [btnMakeSuerOrder setBackgroundColor:[UIColor redColor]];
+        [btnAddress addTarget:self action:@selector(doaddress:) forControlEvents:UIControlEventTouchUpInside];
+        [btnAddress setImage:image forState:UIControlStateNormal];
+        //        [btnEnter setTitle:@"提交订单" forState:UIControlStateNormal];
+        [scrollView addSubview:btnAddress];
         
         
         
-        UILabel *labelAddr = [[UILabel alloc]initWithFrame:CGRectMake(10.0f, CGRectGetHeight(labelName2.frame) + CGRectGetMinY(labelName2.frame) + 5, 50.0, 30.0f)];
-        [labelAddr setBackgroundColor:[UIColor clearColor]];
-        [labelAddr setText:@"地址"];
-        
-        [scrollView addSubview:labelAddr];
-//        RELEASEOBJ(labelAddr);
-        
-        UITextView *textView = [[UITextView alloc]initWithFrame:CGRectMake(40.0f, CGRectGetHeight(labelName2.frame) + CGRectGetMinY(labelName2.frame) + 5, 300.0f, 100.0f)];
-        [textView setBackgroundColor:[UIColor grayColor]];
-        
-//        [self.view addSubview:textView];
-//        RELEASEOBJ(textView);
+        _textaddress = [[UITextField alloc] initWithFrame:CGRectMake(20+image.size.width/2+20, fypoint, 200, 30)];
+        _textaddress.borderStyle = UITextBorderStyleNone;
+        _textaddress.layer.borderWidth = 1;
+        _textaddress.layer.borderColor = NORMALBORDORCOLOR.CGColor;
+        _textaddress.placeholder = @"请选择地址";
+        _textaddress.enabled = NO;
+        [scrollView addSubview:_textaddress];
         
         
-        UIButton *btnEnter = [[UIButton alloc]initWithFrame:CGRectMake(10.0f, CGRectGetHeight(labelName2.frame) + CGRectGetMinY(labelName2.frame) + 5 + 40, 40.0f, 40.0f)];
-        [btnEnter setBackgroundColor:[UIColor redColor]];
-        [btnEnter addTarget:self action:@selector(doEnterAddr) forControlEvents:UIControlEventTouchUpInside];
-//        [self.view addSubview:btnEnter];
-//        RELEASEOBJ(btnEnter);
-//
-//
+        
+        
+        fypoint += 30+10;
+        UILabel *labelRemark = [[UILabel alloc]initWithFrame:CGRectMake(10.0f,fypoint, 80.0, 30.0f)];
+        [labelRemark setBackgroundColor:[UIColor clearColor]];
+        [labelRemark setText:@"备注:"];
+        [labelRemark setTextColor:[UIColor blackColor]];
+        [labelRemark setFont:[UIFont systemFontOfSize:15]];
+        [scrollView addSubview:labelRemark];
+        
+        
+        
+        _textremark = [[UITextField alloc] initWithFrame:CGRectMake(20+image.size.width/2+20, fypoint, 200, 30)];
+        _textremark.borderStyle = UITextBorderStyleNone;
+        _textremark.layer.borderWidth = 1;
+        _textremark.layer.borderColor = NORMALBORDORCOLOR.CGColor;
+        _textremark.placeholder = @"请输入您的要求";
+        [scrollView addSubview:_textremark];
+        _textremark.delegate =  self;
+        
+        
+        fypoint += 30+10;
         UIImage *i = [UIImage imageNamed:@"组 5.png"];
-        UIButton *btnMakeSuerOrder = [[UIButton alloc]initWithFrame:CGRectMake((320 - i.size.width/2)/2,  CGRectGetHeight(_tableView1.frame) + CGRectGetMinY(_tableView1.frame) + 15, i.size.width/2, i.size.height/2)];
-//        [btnMakeSuerOrder setBackgroundColor:[UIColor redColor]];
+        UIButton *btnMakeSuerOrder = [[UIButton alloc]initWithFrame:CGRectMake((320 - i.size.width/2)/2,  fypoint, i.size.width/2, i.size.height/2)];
         [btnMakeSuerOrder addTarget:self action:@selector(dobtnMakeSuerOrder) forControlEvents:UIControlEventTouchUpInside];
         [btnMakeSuerOrder setImage:i forState:UIControlStateNormal];
-//        [btnEnter setTitle:@"提交订单" forState:UIControlStateNormal];
         [scrollView addSubview:btnMakeSuerOrder];
-//        RELEASEOBJ(btnMakeSuerOrder);
-        
-        [scrollView setFrame:CGRectMake(0.0f, 0.0, 320.0f, appde.window.frame.size.height)];
+        RELEASEOBJ(btnMakeSuerOrder);
+
    
-        [scrollView setContentSize:CGSizeMake(320.0f,  CGRectGetHeight(btnMakeSuerOrder.frame) + CGRectGetMinY(btnMakeSuerOrder.frame) + 50)];
+        [scrollView setContentSize:CGSizeMake(320.0f,  fypoint+btnMakeSuerOrder.frame.size.height)];
         
         NSString *index = [[NSUserDefaults standardUserDefaults]objectForKey:@"kitchenIndex"];
     
@@ -206,19 +249,16 @@
         MagicRequest *request11 = [DYBHttpMethod wosKitchenInfo_medeals_userIndex:SHARED.userId kitchenIndex:index sAlert:YES receive:self];
         [request11 setTag:4];
         
+/*
+        MagicUITableView *tabelViewList = [[MagicUITableView alloc]initWithFrame:CGRectMake(0.0f, self.headHeight, 320.0f, self.view.frame.size.height - self.headHeight)];
+        
+        [self.view addSubview:tabelViewList];
+        RELEASE(tabelViewList)
+        
 
-//        MagicUITableView *tabelViewList = [[MagicUITableView alloc]initWithFrame:CGRectMake(0.0f, self.headHeight, 320.0f, self.view.frame.size.height - self.headHeight)];
-//        
-//        [self.view addSubview:tabelViewList];
-//        RELEASE(tabelViewList)
+        MagicRequest *request = [DYBHttpMethod wosKitchenInfo_kitchenIndex:index userIndex:SHARED.userId hotFoodCount:@"4" sAlert:YES receive:self];
+                [request setTag:3];*/
         
-        
-        
-        
-        
-        //        MagicRequest *request = [DYBHttpMethod wosKitchenInfo_kitchenIndex:[_dictInfo objectForKey:@"kitchenIndex"] userIndex:SHARED.userId hotFoodCount:@"4" sAlert:YES receive:self];
-        //        [request setTag:3];
-        //
         
         
         
@@ -237,15 +277,99 @@
     
 }
 
+
+
+-(void)setAddress:(NSDictionary*)addInfo
+{
+    _textaddress.textColor = TEXTCOLOR;
+    [_textaddress setText:[addInfo valueForKey:@"receiverAddress"]];
+    self.dicAddInfo = addInfo;
+}
+
+-(void)doaddress:(id)sender
+{
+    
+    WOSAddrViewController *controller = [[WOSAddrViewController alloc] init];
+    controller.payController = self;
+    [self.navigationController pushViewController:controller animated:YES];
+    
+}
 -(void)dobtnMakeSuerOrder{
 
 
+    
+    if (!self.dicAddInfo)
+    {
+        UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"提示"
+                                                     message:@"请选择送货地址"
+                                                    delegate:nil
+                                           cancelButtonTitle:@"确定"
+                                           otherButtonTitles:nil, nil];
+        [av show];
+        return;
+    }
+    
+    NSString *addIndex = [self.dicAddInfo valueForKey:@"addrIndex"];
+    NSString *remaek = _textremark.text;
+    
+    if (!remaek.length)
+    {
+        remaek = nil;
+    }
 
+    NSString *strFoodIndex = nil;
+    NSString *strCountIndex = nil;
+    
+    
+    NSArray *array = [dictOrder allValues];
+    for (NSArray *arrayTemp in array)
+    {
+     
+        NSDictionary   *dic = [arrayTemp firstObject];
+        
+        NSString *index = [dic objectForKey:@"foodIndex"];
+    
+        if (strFoodIndex == nil)
+        {
+            strFoodIndex = index;
+        }else
+        {
+            strFoodIndex = [NSString stringWithFormat:@"%@,%@",strFoodIndex,index];
+        }
+        
+        int count = 0;
+        for (NSDictionary *dicTemp  in arrayTemp)
+        {
+            if (dicTemp.count)
+            {
+                count++;
+            }
+        }
+        if (strCountIndex == nil)
+        {
+            strCountIndex = [NSString stringWithFormat:@"%d",count];
+        }else
+        {
+            strCountIndex = [NSString stringWithFormat:@"%@,%d",strCountIndex,count];
+        }
+        
+    }
+    
+    
+    
+    id  strKitch = @([[[NSUserDefaults standardUserDefaults]objectForKey:@"kitchenIndex"] intValue]);
+ 
+
+    
+    MagicRequest *request = [DYBHttpMethod wosKitchenInfo_orderadd_userIndex:SHARED.userId kitchenIndex:strKitch userAddrIndex:addIndex persons:nil remarks:remaek dealsIndexs:nil foodIndexs:strFoodIndex countIndexs:strCountIndex sAlert:YES receive:self];
+    request.tag = 200;
+    
+    
 }
 
 -(void)doSwith:(id)sender{
 
-    NSString *index = [[NSUserDefaults standardUserDefaults]objectForKey:@"kitchenIndex"];
+ //   NSString *index = [[NSUserDefaults standardUserDefaults]objectForKey:@"kitchenIndex"];
 
     
 //    MagicRequest *request = [DYBHttpMethod wosFoodInfo_calculate_userIndex:SHARED.userId kitchenIndex:index foodIndexs:<#(NSString *)#> countIndexs:<#(NSString *)#> sAlert:<#(BOOL)#> receive:<#(id)#>];
@@ -335,6 +459,15 @@
 }
 
 
+-(float )getYouhui{
+    
+    
+    float total = 0;
+
+    return  total;
+    
+}
+
 -(float )getTotal{
 
     
@@ -423,7 +556,29 @@
                 }
             }
             
-        } else{
+        } else if(request.tag == 200){
+            
+            NSDictionary *dict = [request.responseString JSONValue];
+            
+            if (dict) {
+                
+                BOOL result = [[dict objectForKey:@"result"] boolValue];
+                if (!result) {
+                    
+                    WOSOrderLostViewController  *controller = [[WOSOrderLostViewController alloc] init];
+                    [self.drNavigationController pushViewController:controller animated:YES];
+                    
+                }
+                else{
+                    NSString *strMSG = [dict objectForKey:@"message"];
+                    
+                    [DYBShareinstaceDelegate popViewText:strMSG target:self hideTime:.5f isRelease:YES mode:MagicPOPALERTVIEWINDICATOR];
+                    
+                    
+                }
+            }
+            
+        }else{
             NSDictionary *dict = [request.responseString JSONValue];
             NSString *strMSG = [dict objectForKey:@"message"];
             
@@ -435,6 +590,41 @@
 }
 
 
+#pragma mark UITextFielddelegate
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    textField.layer.borderColor = HIGHLIGHTBORDORCOLOR.CGColor;
+    textField.textColor = TEXTCOLOR;
+    CGRect frame = scrollView.frame;
+    frame.origin.y -= 100;
+    [UIView animateWithDuration:0.3 animations:^{scrollView.frame = frame;}];
+    
+}
+- (BOOL)textFieldShouldEndEditing:(UITextField *)textField
+{
+    return YES;
+}
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    return YES;
+}
+
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    
+    textField.textColor = TEXTCOLOR;
+    CGRect frame = scrollView.frame;
+    frame.origin.y += 100;
+    [UIView animateWithDuration:0.3 animations:^{scrollView.frame = frame;}];
+    [textField resignFirstResponder];
+    return YES;
+}
 
 
 /*

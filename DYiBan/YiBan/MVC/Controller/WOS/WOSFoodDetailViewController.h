@@ -12,4 +12,6 @@
 @property(nonatomic,retain)NSString *dictInfo;
 
 @property (nonatomic,retain)NSDictionary *dictShop;
+
+@property (nonatomic)BOOL   canAddOrder;
 @end

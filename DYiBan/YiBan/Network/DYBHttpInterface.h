@@ -432,7 +432,12 @@
 
 + (NSMutableDictionary *)wosLogin_nickName:(NSString *)nickName passwd:(NSString *)passwd;
 
-+ (NSMutableDictionary *)wosRegion_nickName:(NSString *)nickName passwd:(NSString *)passwd sex:(NSString *)sex;
+
+//获取个人信息
++ (NSMutableDictionary *)wosAllinfo:(NSString *)userIndex;
+
+
++ (NSMutableDictionary *)wosRegion_nickName:(NSString *)nickName passwd:(NSString *)passwd sex:(NSString *)sex email:(NSString*)strEmail phone:(NSString*)strPhone;
 
 
 + (NSMutableDictionary *)wosgoodFood_typeIndex:(NSString *)typeIndex  orderBy:(NSString *)orderBy  page:(NSString *)page count:(NSString *)count orderType:(NSString *)orderType;

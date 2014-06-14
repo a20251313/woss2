@@ -426,7 +426,10 @@
 
 + (MagicRequest *)wosLongin_nickName:(NSString *)nickname passwd:(NSString *)passwd sAlert:(BOOL)isAlert receive:(id)receive ;
 
-+ (MagicRequest *)wosRegion_nickName:(NSString *)nickName passwd:(NSString *)passwd sex:(NSString *)sex sAlert:(BOOL)isAlert receive:(id)receive;
+
++ (MagicRequest *)wosAllINfo:(NSString *)userIndex isAlert:(BOOL)isAlert receive:(id)receive;
+
++ (MagicRequest *)wosRegion_nickName:(NSString *)nickName passwd:(NSString *)passwd sex:(NSString *)sex email:(NSString*)strEmail phone:(NSString*)strPhone sAlert:(BOOL)isAlert receive:(id)receive;
 
 + (MagicRequest *)wosgoodFood_typeIndex:(NSString *)typeIndex  orderBy:(NSString *)orderBy  page:(NSString *)page count:(NSString *)count orderType:(NSString *)orderType sAlert:(BOOL)isAlert receive:(id)receive;
 

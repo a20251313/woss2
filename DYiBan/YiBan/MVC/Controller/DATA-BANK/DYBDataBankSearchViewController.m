@@ -656,7 +656,7 @@ static DYBDataBankSearchViewController *shareIntance = nil;
             }
         }else{
         
-            NSString *strMSG = [response.data objectForKey:@""];
+           // NSString *strMSG = [response.data objectForKey:@""];
         
         
         }

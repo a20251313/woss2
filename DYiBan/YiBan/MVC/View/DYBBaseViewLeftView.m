@@ -38,12 +38,34 @@ DEF_SIGNAL(PERSONINFOIMAGE)
 @synthesize photoBtn = _photoBtn,newTag = _newTag,oldTag = _oldTag;
 
 
+
+-(void)setMyHead:(NSNotification*)note
+{
+    UIImageView *icon = (UIImageView*)[self viewWithTag:1001];
+    
+    UIImage *image = [SHARED getUserImage];
+    if (image)
+    {
+        icon.image = image;
+    }
+   
+    
+}
+
+-(void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [super dealloc];
+}
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
         
 
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setMyHead:) name:@"DYBBaseViewLeftViewHead" object:nil];
+        
         self.backgroundColor = [MagicCommentMethod colorWithHex:@"f8f8f8"];
         _newTag = -1;
         _oldTag = -1;
@@ -72,6 +94,9 @@ DEF_SIGNAL(PERSONINFOIMAGE)
 
         UIImageView *imageViewIcon = [[UIImageView alloc]initWithFrame:CGRectMake((320 - 60 - 80)/2 - 20, 54/2, 80.0f, 80.0f)];
         [imageViewIcon setImage:[UIImage imageNamed:@"60pt"]];
+        imageViewIcon.tag = 1001;
+        imageViewIcon.layer.masksToBounds = YES;
+        imageViewIcon.layer.cornerRadius = 35;
         [self addSubview:imageViewIcon];
         
         UITapGestureRecognizer  *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(goPersonInfo:)];
@@ -244,9 +269,6 @@ DEF_SIGNAL(PERSONINFOIMAGE)
     
 }
 
-- (void)dealloc {
-    [super dealloc];
-}
 
 
 

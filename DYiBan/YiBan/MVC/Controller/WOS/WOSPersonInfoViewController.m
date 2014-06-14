@@ -32,6 +32,8 @@
 #import "WOSLogInViewController.h"
 #import "WOSOrderLostViewController.h"
 #import "WOSFindMIMAViewController.h"
+#import "NSString+SBJSON.h"
+#import "user.h"
 @interface WOSPersonInfoViewController ()<UIActionSheetDelegate,UIImagePickerControllerDelegate>{
     
     
@@ -104,6 +106,11 @@
         UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake((self.view.frame.size.width-74)/2, fypoint, 74, 70)];
         UIImage *imageNew = [UIImage imageNamed:@"log"];
         [imageView setImage:imageNew];
+        UIImage *storeImage = [SHARED getUserImage];
+        if (storeImage)
+        {
+            imageView.image = storeImage;
+        }
         imageView.layer.masksToBounds = YES;
         imageView.layer.cornerRadius = 35;
         imageView.userInteractionEnabled = YES;
@@ -153,7 +160,7 @@
         
         UILabel *labelScore = [[UILabel alloc]initWithFrame:CGRectMake(0,fypoint,320,30)];
     
-        [labelScore setText:@"我的积分"];
+        [labelScore setText:@"我的积分：0"];
         
         [labelScore setBackgroundColor:[UIColor clearColor]];
         
@@ -161,7 +168,7 @@
         
         [self.view addSubview:labelScore];
         
-        labelScore.tag = 10001;
+        labelScore.tag = 1001;
         [labelScore setTextAlignment:NSTextAlignmentCenter];
         
         [labelScore release];
@@ -170,7 +177,7 @@
         fypoint += fysep+30;
         UILabel *labelPhone = [[UILabel alloc]initWithFrame:CGRectMake(0,fypoint,320,30)];
         
-        [labelPhone setText:@"绑定手机:15502185591"];
+        [labelPhone setText:@"绑定手机:"];
         
         [labelPhone setBackgroundColor:[UIColor clearColor]];
         
@@ -178,7 +185,7 @@
         
         [self.view addSubview:labelPhone];
         
-        labelPhone.tag = 10002;
+        labelPhone.tag = 1002;
         [labelPhone setTextAlignment:NSTextAlignmentCenter];
         
         [labelPhone release];
@@ -212,6 +219,8 @@
               [btnBack release];
        // [btnBack setImage:[UIImage imageNamed:@"button"] forState:UIControlStateNormal];
         [self addlabel_title:@"退出登陆" frame:btnBack.frame view:btnBack];
+        
+        [self getAllInfo];
 
     }
     
@@ -229,6 +238,12 @@
     
 }
 
+
+-(void)getAllInfo
+{
+    MagicRequest    *request = [DYBHttpMethod wosAllINfo:SHARED.userId isAlert:YES receive:self];
+    request.tag = 100;
+}
 
 -(void)modifiedPwd:(id)sender
 {
@@ -315,6 +330,7 @@
     }
     
     [self dismissModalViewControllerAnimated:YES];
+    [SHARED storeUserImage:image];
 }
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
@@ -322,11 +338,13 @@
     if ([info valueForKey:UIImagePickerControllerEditedImage])
     {
         imageHead.image = [info valueForKey:UIImagePickerControllerOriginalImage];
+          [SHARED storeUserImage:imageHead.image];
     }else
     {
-        imageHead.image = nil;
+       // imageHead.image = nil;
     }
       [self dismissModalViewControllerAnimated:YES];
+  
     
 }
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
@@ -334,9 +352,6 @@
     
       [self dismissModalViewControllerAnimated:YES];
 }
-
-
-
 
 
 
@@ -621,6 +636,64 @@
     }
     
 }
+
+
+
+-(void)refrshWithUserInfo:(DYBShareinstaceDelegate*)myuser
+{
+    UILabel *labelName = (UILabel*)[self.view viewWithTag:1000];
+    [labelName setText:myuser.username];
+    
+    
+    UILabel *labelScore = (UILabel*)[self.view viewWithTag:1001];
+    [labelScore setText:[NSString stringWithFormat:@"我地积分:%@",myuser.points]];
+    
+    UILabel *labelPhone = (UILabel*)[self.view viewWithTag:1002];
+    [labelPhone setText:[NSString stringWithFormat:@"绑定手机:%@",myuser.phone]];
+    
+    
+}
+
+#pragma mark- 只接受HTTP信号
+- (void)handleRequest:(MagicRequest *)request receiveObj:(id)receiveObj
+{
+    
+    if ([request succeed])
+    {
+        //        JsonResponse *response = (JsonResponse *)receiveObj;
+        if (request.tag == 100) {
+            
+            
+            NSDictionary *dict = [request.responseString JSONValue];
+            
+            if (dict) {
+                BOOL result = [[dict objectForKey:@"result"] boolValue];
+                if (!result) {
+                    
+                    SHARED.userId = [dict objectForKey:@"userIndex"]; //设置userid 全局变量
+                    
+                    [SHARED setUserInfoFromLoginDic:dict];
+                    [self refrshWithUserInfo:SHARED];
+                    
+                }else{
+                    NSString *strMSG = [dict objectForKey:@"message"];
+                    
+                    [DYBShareinstaceDelegate popViewText:strMSG target:self hideTime:.5f isRelease:YES mode:MagicPOPALERTVIEWINDICATOR];
+                    
+                    
+                }
+            }
+        }else{
+            NSDictionary *dict = [request.responseString JSONValue];
+            NSString *strMSG = [dict objectForKey:@"message"];
+            
+            [DYBShareinstaceDelegate popViewText:strMSG target:self hideTime:.5f isRelease:YES mode:MagicPOPALERTVIEWINDICATOR];
+            
+            
+        }
+    }
+}
+
 
 - (void)dealloc
 

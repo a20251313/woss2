@@ -22,6 +22,7 @@
 
 @implementation WOSFoodDetailViewController
 @synthesize dictInfo = _dictInfo,dictShop;
+@synthesize canAddOrder;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -139,6 +140,17 @@
 }
 
 -(void)addRisgin{
+    
+    if (!self.canAddOrder)
+    {
+        UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"提示"
+                                                     message:@"不在送货时间范围"
+                                                    delegate:nil
+                                           cancelButtonTitle:@"确定"
+                                           otherButtonTitles:nil, nil];
+        [av show];
+        return;
+    }
 
     NSString *stringShopName = [[NSUserDefaults standardUserDefaults]objectForKey:@"shopname"];
     if (![stringShopName isEqualToString:[dictShop objectForKey:@"kitchenName"]] && stringShopName) {
@@ -187,6 +199,11 @@
 {
     if ([signal is:[DYBBaseViewController BACKBUTTON]])
     {
+        
+        AppDelegate *appd = appDelegate;
+        
+        UIView *viewBtn = [appd.window viewWithTag:80800];
+        viewBtn.hidden = YES;
         [self.drNavigationController popViewControllerAnimated:YES];
     }else if ([signal is:[DYBBaseViewController NEXTSTEPBUTTON]]){
     }

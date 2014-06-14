@@ -1174,10 +1174,10 @@ DEF_SIGNAL(CANCELSHARE)
     
     if ([signal is:[DYBDataBankShotView LEFT]]) {
         NSDictionary *dict = (NSDictionary *)[signal object];
-        NSString *text = [dict objectForKey:@"text"];
+     //   NSString *text = [dict objectForKey:@"text"];
         NSString *type = [dict objectForKey:@"type"];
-        NSNumber *row = [dict objectForKey:@"rowNum"];
-        NSDictionary *dictResult = _dictFileInfo;
+     //   NSNumber *row = [dict objectForKey:@"rowNum"];
+    //    NSDictionary *dictResult = _dictFileInfo;
         switch ([type integerValue]) {
             case BTNTAG_GOONDOWNLOAD:{
                 

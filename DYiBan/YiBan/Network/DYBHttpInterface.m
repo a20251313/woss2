@@ -1870,12 +1870,23 @@
 
 }
 
++ (NSMutableDictionary *)wosAllinfo:(NSString *)userIndex{
+    
+    NSMutableDictionary * dict = AUTORELEASE([[NSMutableDictionary alloc] init]);
+    [dict setValue:userIndex forKey:@"userIndex"];
+    [dict setValue:@"me/allInfo.do" forKey:INTERFACEDOACTION];
+    return dict;
+    
+}
 
-+ (NSMutableDictionary *)wosRegion_nickName:(NSString *)nickName passwd:(NSString *)passwd sex:(NSString *)sex{
+
++ (NSMutableDictionary *)wosRegion_nickName:(NSString *)nickName passwd:(NSString *)passwd sex:(NSString *)sex email:(NSString*)strEmail phone:(NSString*)strPhone{
     NSMutableDictionary * dict = AUTORELEASE([[NSMutableDictionary alloc] init]);
     [dict setValue:nickName forKey:@"nickName"];
     [dict setValue:passwd forKey:@"passwd"];
     [dict setValue:sex  forKey:@"sex"];
+    [dict setValue:strEmail  forKey:@"email"];
+    [dict setValue:strPhone  forKey:@"mobile"];
     [dict setValue:@"me/add.do" forKey:INTERFACEDOACTION];
     return dict;
 
@@ -1993,15 +2004,52 @@
 + (NSMutableDictionary *)wosKitchenInfo_orderadd_userIndex:(NSString *)userIndex kitchenIndex:(NSString *)kitchenIndex userAddrIndex:(NSString *)userAddrIndex persons:(NSString *)persons remarks:(NSString *)remarks dealsIndexs:(NSString *)dealsIndexs foodIndexs:(NSString *)foodIndexs countIndexs:(NSString *)countIndexs{
     
     NSMutableDictionary * dict = AUTORELEASE([[NSMutableDictionary alloc] init]);
-    [dict setValue:userIndex  forKey:@"userIndex"];
-    [dict setValue:kitchenIndex  forKey:@"kitchenIndex"];
-    [dict setValue:userIndex  forKey:@"userAddrIndex"];
-    [dict setValue:persons  forKey:@"persons"];
-    [dict setValue:remarks  forKey:@"remarks"];
-    [dict setValue:dealsIndexs  forKey:@"dealsIndexs"];
-    [dict setValue:foodIndexs  forKey:@"foodIndexs"];
-    [dict setValue:countIndexs  forKey:@"countIndexs"];
+    if (userIndex)
+    {
+        [dict setValue:userIndex  forKey:@"userIndex"];
+    }
+
+    if (kitchenIndex)
+    {
+        [dict setValue:kitchenIndex  forKey:@"kitchenIndex"];
+    }
+    
+    if (userAddrIndex)
+    {
+        [dict setValue:userAddrIndex  forKey:@"userAddrIndex"];
+    }
+    
+    if (persons)
+    {
+         [dict setValue:persons  forKey:@"persons"];
+    }
+ 
+    if (remarks)
+    {
+         [dict setValue:remarks  forKey:@"remarks"];
+    }
+ 
+    if (dealsIndexs)
+    {
+        
+        [dict setValue:dealsIndexs  forKey:@"dealsIndexs"];
+    }
+    if (foodIndexs)
+    {
+        [dict setValue:foodIndexs  forKey:@"foodIndexs"];
+    }
+    if (countIndexs)
+    {
+        [dict setValue:countIndexs  forKey:@"countIndexs"];
+    }
+   
+    
     [dict setValue:@"order/add.do" forKey:INTERFACEDOACTION];
+    
+    DLogInfo(@"wosKitchenInfo_orderadd_userIndex params:%@",dict);
+
+
+
     return dict;
 }
 

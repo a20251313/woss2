@@ -12,4 +12,6 @@
 
 @interface WOSPayViewController : DYBBaseViewController
 
+
+-(void)setAddress:(NSDictionary*)addInfo;
 @end

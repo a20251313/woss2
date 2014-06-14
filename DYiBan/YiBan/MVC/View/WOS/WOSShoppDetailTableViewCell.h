@@ -15,6 +15,6 @@
 @interface WOSShoppDetailTableViewCell : UITableViewCell
 
 @property(nonatomic,assign)id<WOSShoppDetailTableViewCellDelegate>delegate;
-
+@property(nonatomic)BOOL  canAddOrder;
 -(void)creatCell:(NSDictionary *)dict;
 @end

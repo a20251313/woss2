@@ -36,6 +36,10 @@ isLoginMethod = _isLoginMethod;
 @synthesize dateFormatter = _dateFormatter;
 @synthesize imei=_imei;
 @synthesize isLogined = _isLogined, isLogin = _isLogin;
+@synthesize points;
+@synthesize phone;
+@synthesize email;
+@synthesize username;
 
 static DYBShareinstaceDelegate *sharedInstace = nil;
 
@@ -62,6 +66,57 @@ static DYBShareinstaceDelegate *sharedInstace = nil;
         [self observeNotification:@"kNetworkConnectTypeChange"];
     }
     return self;
+}
+
+
+
+-(void)storeUserImage:(UIImage*)image
+{
+    NSString    *strPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    strPath = [strPath stringByAppendingFormat:@"/%@indexImage.png",self.userId];
+    NSData  *data = UIImageJPEGRepresentation(image, 1);
+    
+    if (![data writeToFile:strPath atomically:YES])
+    {
+        
+        DLogInfo(@"storeUserImage fail:%@",strPath);
+    }else
+    {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"DYBBaseViewLeftViewHead" object:nil userInfo:nil];
+    }
+  
+}
+
+-(UIImage*)getUserImage
+{
+    NSString    *strPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    strPath = [strPath stringByAppendingFormat:@"/%@indexImage.png",self.userId];
+    UIImage *image = [UIImage imageWithContentsOfFile:strPath];
+    return image;
+    
+}
+
+-(void)setUserInfoFromLoginDic:(NSDictionary*)dicInfo
+{
+    if ([dicInfo valueForKey:@"nickName"])
+    {
+        self.username = [dicInfo valueForKey:@"nickName"];
+    }
+    if ([dicInfo valueForKey:@"email"])
+    {
+        self.email = [[dicInfo valueForKey:@"email"] description];
+    }
+    if ([dicInfo valueForKey:@"mobile"])
+    {
+        self.phone = [[dicInfo valueForKey:@"mobile"] description];
+    }
+    if ([dicInfo valueForKey:@"points"])
+    {
+        self.points = [[dicInfo valueForKey:@"points"] description];
+    }
+    
+
+    
 }
 
 - (void)setCurUser:(user *)curUser

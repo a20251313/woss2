@@ -52,6 +52,8 @@
     {
         [self.headview setTitle:@"添加地址"];
         
+  
+        
         [self.headview setTitleColor:[UIColor whiteColor]];
         [self setButtonImage:self.leftButton setImage:@"返回键"];
         [self.view setBackgroundColor:ColorBG];

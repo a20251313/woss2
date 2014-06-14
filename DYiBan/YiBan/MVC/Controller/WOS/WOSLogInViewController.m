@@ -17,6 +17,7 @@
 #import "JSON.h"
 #import "Magic_Database.h"
 #import "WOSRegisterViewController.h"
+#import "user.h"
 @interface WOSLogInViewController (){
 
     DYBInputView *_phoneInputName;
@@ -353,9 +354,11 @@
 
 -(void)addRisgin{
 
+    
 
-        MagicRequest *request = [DYBHttpMethod wosRegion_nickName:_phoneInputNameR.nameField.text passwd:_phoneInputAddrR.nameField.text sex:_phoneInputMORF.nameField.text sAlert:YES receive:self];
-        [request setTag:3];
+
+      /*  MagicRequest *request = [DYBHttpMethod wosRegion_nickName:_phoneInputNameR.nameField.text passwd:_phoneInputAddrR.nameField.text sex:_phoneInputMORF.nameField.text sAlert:YES receive:self];
+        [request setTag:3];*/
     
 }
 
@@ -400,10 +403,13 @@
                 .INSERT();
                
                 SHARED.userId = [dict objectForKey:@"userIndex"]; //设置userid 全局变量
-                
+              
+                [SHARED setUserInfoFromLoginDic:dict];
                 
                 [self.drNavigationController popViewControllerAnimated:YES];
                 
+                
+                 [[NSNotificationCenter defaultCenter] postNotificationName:@"DYBBaseViewLeftViewHead" object:nil userInfo:nil];
 //                DYBUITabbarViewController *vc = [[DYBUITabbarViewController sharedInstace] init:self];
 //                
 //                [self.drNavigationController pushViewController:vc animated:YES];

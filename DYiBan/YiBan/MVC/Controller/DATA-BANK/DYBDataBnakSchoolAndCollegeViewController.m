@@ -183,7 +183,7 @@ DEF_SIGNAL(RIGHTSIGNAL)
 
 
 #pragma mark- 只接受tbv信号
-static NSString *reuseIdentifier = @"reuseIdentifier";
+//static NSString *reuseIdentifier = @"reuseIdentifier";
 
 - (void)handleViewSignal_MagicUITableView:(MagicViewSignal *)signal{
     

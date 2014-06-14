@@ -693,6 +693,16 @@ MagicUIButton *hiddenView;
 
         selectBtIndex = button.tag;
         if (button.tag == 10) {
+            
+            if (SHARED.userId == nil) {
+                
+                WOSLogInViewController *login = [[WOSLogInViewController alloc]init];
+                
+                [self.drNavigationController pushViewController:login animated:YES];
+                
+                return;
+            }
+            
             //社区
             
             WOSPreferentialCardViewController *card = [[WOSPreferentialCardViewController alloc]init];
@@ -793,6 +803,15 @@ MagicUIButton *hiddenView;
         selectBtIndex = -1;
     }else if ([signal is:[DYBBaseViewLeftView PERSONINFOIMAGE]])
     {
+        if (SHARED.userId == nil) {
+            
+            WOSLogInViewController *login = [[WOSLogInViewController alloc]init];
+            
+            [self.drNavigationController pushViewController:login animated:YES];
+            
+            return;
+        }
+        
         WOSPersonInfoViewController *person = [[WOSPersonInfoViewController alloc] init];
         [self.drNavigationController pushViewController:person animated:YES];
         RELEASE(person);

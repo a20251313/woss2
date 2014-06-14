@@ -282,9 +282,9 @@ static DYBDataBankDownloadManageViewController *shareInstance = nil;
 - (void)handleViewSignal_MagicUIImageView_WEBDOWNSUCCESS:(MagicViewSignal *)signal
 {
 
-    MagicUIImageView *tttt = (MagicUIImageView *)[signal source];
+   // MagicUIImageView *tttt = (MagicUIImageView *)[signal source];
 
-    NSString *downloadName  = tttt.strTag;
+  //  NSString *downloadName  = tttt.strTag;
     
 //     DYBDataBankListCell *cell = (DYBDataBankListCell *)[dictDictCellURL objectForKey:downloadName];
 //        

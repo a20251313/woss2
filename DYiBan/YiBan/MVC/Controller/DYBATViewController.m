@@ -176,7 +176,7 @@ static NSString *cellName = @"cellName";//
     }else if ([signal is:[MagicUITableView TABLENUMOFSEC]])//numberOfSectionsInTableView
     {
         NSDictionary *dict = (NSDictionary *)[signal object];
-        NSIndexPath *indexPath = [dict objectForKey:@"indexPath"];
+        //NSIndexPath *indexPath = [dict objectForKey:@"indexPath"];
         UITableView *tableView = [dict objectForKey:@"tableView"];
         
         if ([tableView isOneSection]) {/*一个section模式*/
@@ -327,13 +327,13 @@ static NSString *cellName = @"cellName";//
     }
     else if ([signal is:[MagicUITableView TAbLEVIEWLODATA]])//加载更多
     {
-        MagicUITableView *tableView = (MagicUITableView *)[signal source];
+      //  MagicUITableView *tableView = (MagicUITableView *)[signal source];
         
     }
     else if ([signal is:[MagicUITableView TABLEVIEWUPDATA]])//刷新
     {
         
-        MagicUITableView *tableView = (MagicUITableView *)[signal source];
+       // MagicUITableView *tableView = (MagicUITableView *)[signal source];
         
         {//HTTP请求
             [self.view setUserInteractionEnabled:NO];
@@ -385,7 +385,7 @@ static NSString *cellName = @"cellName";//
         NSDictionary *dict = (NSDictionary *)[signal object];
         UITableView *tableview = [dict objectForKey:@"tableView"];
         NSString *title = [dict objectForKey:@"title"];
-        NSInteger index = [[dict objectForKey:@"index"] integerValue];
+     //   NSInteger index = [[dict objectForKey:@"index"] integerValue];
         
         //在数据源的下标
         NSInteger count = 0;
@@ -432,8 +432,8 @@ static NSString *cellName = @"cellName";//
         }
         
     }else if ([signal is:[MagicUISearchBar CANCEL]]){//取消搜索
-        MagicUISearchBar *search=(MagicUISearchBar *)signal.object;
-        
+       // MagicUISearchBar *search=(MagicUISearchBar *)signal.object;
+    
         [_tbv_friends_myConcern_RecentContacts release_muA_differHeightCellView];
         [_tbv_friends_myConcern_RecentContacts resetSectionData];
         [_tbv_friends_myConcern_RecentContacts reloadData:YES];
@@ -459,7 +459,7 @@ static NSString *cellName = @"cellName";//
         
     }else if ([signal is:[MagicUISearchBar SEARCHING]]){//正在搜索
         
-        MagicUISearchBar *search=(MagicUISearchBar *)signal.source;
+     //   MagicUISearchBar *search=(MagicUISearchBar *)signal.source;
         NSDictionary *d=(NSDictionary *)signal.object;
         UITableView *tbv=[d objectForKey:@"tbv"];
         NSString *searchContent=[d objectForKey:@"searchContent"];

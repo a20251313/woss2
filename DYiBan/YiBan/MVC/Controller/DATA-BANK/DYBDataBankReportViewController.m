@@ -76,7 +76,7 @@
 - (void)handleRequest:(MagicRequest *)request receiveObj:(id)receiveObj
 {
     [self.view setUserInteractionEnabled:YES];
-    JsonResponse *response = (JsonResponse *)receiveObj;
+    //JsonResponse *response = (JsonResponse *)receiveObj;
 }
 
 - (void)didReceiveMemoryWarning

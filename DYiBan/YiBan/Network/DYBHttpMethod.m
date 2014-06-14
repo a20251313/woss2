@@ -1508,9 +1508,20 @@
 
 }
 
-+ (MagicRequest *)wosRegion_nickName:(NSString *)nickName passwd:(NSString *)passwd sex:(NSString *)sex sAlert:(BOOL)isAlert receive:(id)receive{
 
-    NSMutableDictionary *dict = [DYBHttpInterface wosRegion_nickName:nickName passwd:passwd sex:sex];
++ (MagicRequest *)wosAllINfo:(NSString *)userIndex isAlert:(BOOL)isAlert receive:(id)receive{
+    
+    NSMutableDictionary *dict = [DYBHttpInterface wosAllinfo:userIndex];
+    DYBRequest *request = AUTORELEASE([[DYBRequest alloc] init]);
+    MagicRequest *dre = [request DYBGET:dict isAlert:isAlert receive:receive];
+    return dre;
+    
+    
+}
+
++ (MagicRequest *)wosRegion_nickName:(NSString *)nickName passwd:(NSString *)passwd sex:(NSString *)sex email:(NSString*)strEmail phone:(NSString*)strPhone sAlert:(BOOL)isAlert receive:(id)receive{
+
+    NSMutableDictionary *dict = [DYBHttpInterface wosRegion_nickName:nickName passwd:passwd sex:sex email:strEmail phone:strPhone];
     DYBRequest *request = AUTORELEASE([[DYBRequest alloc] init]);
     MagicRequest *dre = [request DYBGET:dict isAlert:isAlert receive:receive];
     return dre;
@@ -1597,7 +1608,7 @@
 
 + (MagicRequest *)wosKitchenInfo_orderadd_userIndex:(NSString *)userIndex kitchenIndex:(NSString *)kitchenIndex userAddrIndex:(NSString *)userAddrIndex persons:(NSString *)persons remarks:(NSString *)remarks dealsIndexs:(NSString *)dealsIndexs foodIndexs:(NSString *)foodIndexs countIndexs:(NSString *)countIndexs sAlert:(BOOL)isAlert receive:(id)receive{
 
-    NSMutableDictionary *dict = [DYBHttpInterface wosKitchenInfo_orderadd_userIndex:userAddrIndex kitchenIndex:kitchenIndex userAddrIndex:userAddrIndex persons:persons remarks:remarks dealsIndexs:dealsIndexs foodIndexs:foodIndexs countIndexs:countIndexs];
+    NSMutableDictionary *dict = [DYBHttpInterface wosKitchenInfo_orderadd_userIndex:userIndex kitchenIndex:kitchenIndex userAddrIndex:userAddrIndex persons:persons remarks:remarks dealsIndexs:dealsIndexs foodIndexs:foodIndexs countIndexs:countIndexs];
     DYBRequest *request = AUTORELEASE([[DYBRequest alloc] init]);
     MagicRequest *dre = [request DYBGET:dict isAlert:isAlert receive:receive];
     return dre;

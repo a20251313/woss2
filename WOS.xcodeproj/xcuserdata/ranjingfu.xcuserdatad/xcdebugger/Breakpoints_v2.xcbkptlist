@@ -9,13 +9,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "DYiBan/YiBan/MVC/Controller/WOS/WOSLogInViewController.m"
-            timestampString = "424360537.352417"
+            filePath = "DYiBan/YiBan/MVC/Controller/WOS/WOSALLOrderViewController.m"
+            timestampString = "424413963.944685"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "301"
-            endingLineNumber = "301"
-            landmarkName = "-doChange:"
+            startingLineNumber = "108"
+            endingLineNumber = "108"
+            landmarkName = "-goShowOrderListAction"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -25,13 +25,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "DYiBan/YiBan/MVC/Controller/WOS/WOSLogInViewController.m"
-            timestampString = "424360572.847923"
+            filePath = "DYiBan/YiBan/MVC/View/WOS/WOSGoodPriceCell.m"
+            timestampString = "424413972.464535"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "274"
-            endingLineNumber = "274"
-            landmarkName = "-doDD"
+            startingLineNumber = "110"
+            endingLineNumber = "110"
+            landmarkName = "-doGoodPrice"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
