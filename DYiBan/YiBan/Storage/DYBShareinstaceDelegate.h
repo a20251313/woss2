@@ -8,6 +8,12 @@
 
 #import <Foundation/Foundation.h>
 #import "DYBDataBankShotView.h"
+
+typedef struct
+{
+    CGFloat     longitude;
+    CGFloat     latitude;
+}Location;
 @class user;
 @class UserSettingMode;
 @class userRegistModel;
@@ -34,6 +40,7 @@
 @property (nonatomic, retain)NSString *email;
 @property (nonatomic, retain)NSString *phone;
 @property (nonatomic, retain)NSString *points;
+@property (nonatomic)Location   mylocation;
 
 
 

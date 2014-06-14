@@ -103,8 +103,6 @@ DEF_SIGNAL(TOUCHBUTTON)
         
         [tabBatC hideTabBar:YES animated:NO];
 
-        
-        
         if ([MagicDevice sysVersion] >= 7)
         {
 
@@ -180,11 +178,11 @@ DEF_SIGNAL(TOUCHBUTTON)
             [self.view addSubview:searchBar];
             RELEASE(searchBar)
             
-            UIButton *btn = [[UIButton alloc]initWithFrame:CGRectMake(0.0f, 0.0f, 200.0f, 30.0f)];
+            /*UIButton *btn = [[UIButton alloc]initWithFrame:CGRectMake(0.0f, 0.0f, 200.0f, 30.0f)];
             [searchBar addSubview:btn];
-            [btn release];
+
             [btn addTarget:self action:@selector(doSearch) forControlEvents:UIControlEventTouchUpInside];
-            
+            [btn release];*/
             float version = [[[ UIDevice currentDevice ] systemVersion ] floatValue ];
             
             if ([ searchBar respondsToSelector : @selector (barTintColor)]) {
@@ -721,7 +719,7 @@ static NSString *cellName = @"cellName";//
         case 2:
         {
             
-            return @"热门";
+            return @"全部";
         }
             break;
 
@@ -736,6 +734,8 @@ static NSString *cellName = @"cellName";//
         default:
             break;
     }
+    
+    return nil;
 
 }
 
@@ -1033,5 +1033,23 @@ static NSString *cellName = @"cellName";//
 {
     
     [super dealloc];
+}
+#pragma mark    UISearchBardelegate
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)localsearchBar
+{
+    
+    if (![localsearchBar.text length])
+    {
+        [DYBShareinstaceDelegate popViewText:@"搜索条件不能够为空!" target:self hideTime:.5f isRelease:YES mode:MagicPOPALERTVIEWINDICATOR];
+        return;
+        
+    }
+    
+    WOSSearchViewController *search = [[WOSSearchViewController alloc]init];
+    search.searkey = localsearchBar.text;
+    [self.drNavigationController pushViewController:search animated:YES];
+    [search release];
+    
 }
 @end

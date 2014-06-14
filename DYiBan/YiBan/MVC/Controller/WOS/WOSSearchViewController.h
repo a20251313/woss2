@@ -12,4 +12,6 @@
 
 @interface WOSSearchViewController : DYBBaseViewController
 
+@property(nonatomic,retain)NSString *searkey;
+
 @end

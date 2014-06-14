@@ -22,6 +22,7 @@
 @end
 
 @implementation DYBShareinstaceDelegate
+
 @synthesize sessionID = _sessionID,
 token = _token,
 version = _version,
@@ -40,6 +41,7 @@ isLoginMethod = _isLoginMethod;
 @synthesize phone;
 @synthesize email;
 @synthesize username;
+@synthesize mylocation;
 
 static DYBShareinstaceDelegate *sharedInstace = nil;
 

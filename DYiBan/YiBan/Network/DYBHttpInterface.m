@@ -2207,7 +2207,7 @@
     
     [dict setValue:countIndexs        forKey:@"countIndexs"];
     [dict setValue:foodIndexs        forKey:@"foodIndexs"];
-    [dict setValue:@"calculate.do" forKey:INTERFACEDOACTION];
+    [dict setValue:@"order/calculate.do" forKey:INTERFACEDOACTION];
     return dict;
 
 }

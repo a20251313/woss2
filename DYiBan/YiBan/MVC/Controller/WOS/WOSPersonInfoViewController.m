@@ -279,6 +279,11 @@
 
 -(void)backMan{
       DLogInfo(@"backMan:");
+    
+    
+    SHARED.userId = nil;
+    [self.drNavigationController popViewControllerAnimated:YES];
+    
     return;
     
     WOSLogInViewController *login = [[WOSLogInViewController alloc]init];

@@ -128,7 +128,17 @@ DEF_SIGNAL(BTNTWO);
     
     
     UILabel *labelDistance = [[UILabel alloc]initWithFrame:CGRectMake(10.0f, self.headHeight + 116/2 , 140.0f, 30)];
-    [labelDistance setText:@"距离我3.2Km"];
+   
+    
+    
+    double lat = SHARED.mylocation.latitude;
+    double lon = SHARED.mylocation.longitude;
+    NSString *gps = [dict objectForKey:@"gps"];
+    NSArray *arrayGPS = [gps componentsSeparatedByString:@","];
+    double tt = [DYBShareinstaceDelegate getDsitance_lat_a:lat lng_a:lon lat_b:[[arrayGPS objectAtIndex:0] doubleValue] lng_b:[[arrayGPS objectAtIndex:1] doubleValue]];
+    [labelDistance setText:[NSString stringWithFormat:@"距离我%@",[self getDistance:tt]]];
+    
+    
     [self.view addSubview:labelDistance];
     [labelDistance setFont:[UIFont systemFontOfSize:13]];
     [labelDistance setBackgroundColor:[UIColor clearColor]];
@@ -198,6 +208,19 @@ DEF_SIGNAL(BTNTWO);
 }
 
 
+
+-(NSString *)getDistance:(double)distance{
+    
+    double distance1 = 0;
+    if (distance > 1000) {
+        distance1 = distance/1000;
+        return [NSString stringWithFormat:@"%.2fKm",distance1];
+    }else{
+        
+        return [NSString stringWithFormat:@"%.2f",distance];
+    }
+    
+}
 
 -(void)doShare{
 

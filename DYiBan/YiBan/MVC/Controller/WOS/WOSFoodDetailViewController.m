@@ -140,7 +140,8 @@
 }
 
 -(void)addRisgin{
-    
+#warning test
+  /*
     if (!self.canAddOrder)
     {
         UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"提示"
@@ -150,7 +151,7 @@
                                            otherButtonTitles:nil, nil];
         [av show];
         return;
-    }
+    }*/
 
     NSString *stringShopName = [[NSUserDefaults standardUserDefaults]objectForKey:@"shopname"];
     if (![stringShopName isEqualToString:[dictShop objectForKey:@"kitchenName"]] && stringShopName) {

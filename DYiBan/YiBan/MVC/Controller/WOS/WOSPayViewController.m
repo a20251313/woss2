@@ -30,6 +30,8 @@
     UITextField *_textaddress;
     UITextField *_textremark;
     UIScrollView  *scrollView;
+    int             dealsIndex;     //优惠劵index
+    BOOL            m_bUserDeal;
 }
 
 @property(nonatomic,retain)NSDictionary *dicAddInfo;
@@ -80,7 +82,7 @@
         [self.headview setTitle:@"确认订单"];
         
 
-        
+        dealsIndex = -1;
         [self.headview setTitleColor:[UIColor whiteColor]];
         [self setButtonImage:self.leftButton setImage:@"返回键"];
         [self.view setBackgroundColor:[UIColor whiteColor]];
@@ -155,6 +157,7 @@
         [labelTotal setBackgroundColor:[UIColor clearColor]];
         [labelTotal setText:[NSString stringWithFormat:@"%0.2f",[self getTotal]]];
         [labelTotal setTextColor:[UIColor colorWithRed:40.0f/255 green:191.0f/255 blue:140.0f/255 alpha:1.0f]];
+        labelTotal.tag = 3000;
         [scrollView addSubview:labelTotal];
         RELEASEOBJ(labelTotal);
 
@@ -249,6 +252,8 @@
         MagicRequest *request11 = [DYBHttpMethod wosKitchenInfo_medeals_userIndex:SHARED.userId kitchenIndex:index sAlert:YES receive:self];
         [request11 setTag:4];
         
+        
+        [self requestPrice];
 /*
         MagicUITableView *tabelViewList = [[MagicUITableView alloc]initWithFrame:CGRectMake(0.0f, self.headHeight, 320.0f, self.view.frame.size.height - self.headHeight)];
         
@@ -367,13 +372,59 @@
     
 }
 
+-(void)requestPrice
+{
+    NSString *strFoodIndex = nil;
+    NSString *strCountIndex = nil;
+    
+    NSArray *array = [dictOrder allValues];
+    for (NSArray *arrayTemp in array)
+    {
+        
+        NSDictionary   *dic = [arrayTemp firstObject];
+        
+        NSString *index = [dic objectForKey:@"foodIndex"];
+        
+        if (strFoodIndex == nil)
+        {
+            strFoodIndex = index;
+        }else
+        {
+            strFoodIndex = [NSString stringWithFormat:@"%@,%@",strFoodIndex,index];
+        }
+        
+        int count = 0;
+        for (NSDictionary *dicTemp  in arrayTemp)
+        {
+            if (dicTemp.count)
+            {
+                count++;
+            }
+        }
+        if (strCountIndex == nil)
+        {
+            strCountIndex = [NSString stringWithFormat:@"%d",count];
+        }else
+        {
+            strCountIndex = [NSString stringWithFormat:@"%@,%d",strCountIndex,count];
+        }
+        
+    }
+    
+    
+    
+        NSString  *strKitch = [[NSUserDefaults standardUserDefaults]objectForKey:@"kitchenIndex"];
+        MagicRequest *request = [DYBHttpMethod wosFoodInfo_calculate_userIndex:SHARED.userId kitchenIndex:strKitch foodIndexs:strFoodIndex countIndexs:strCountIndex sAlert:YES receive:self];
+        [request setTag:3];
+    
+}
+
 -(void)doSwith:(id)sender{
 
  //   NSString *index = [[NSUserDefaults standardUserDefaults]objectForKey:@"kitchenIndex"];
 
     
-//    MagicRequest *request = [DYBHttpMethod wosFoodInfo_calculate_userIndex:SHARED.userId kitchenIndex:index foodIndexs:<#(NSString *)#> countIndexs:<#(NSString *)#> sAlert:<#(BOOL)#> receive:<#(id)#>];
-//                                 [request setTag:3];
+
     
     
 
@@ -382,10 +433,11 @@
 
     UISwitch *s = (UISwitch *)sender;
     if (s.on) {
+        m_bUserDeal = YES;
         
     }else {
     
-    
+       m_bUserDeal = NO;
     }
     
 }
@@ -458,6 +510,17 @@
     return nil;
 }
 
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (tableView.tag == 102)
+    {
+        NSDictionary  *dicInfo = arrayCard[indexPath.row];
+        NSString    *strdelaIndex = [dicInfo valueForKey:@"dealsIndex"];
+        dealsIndex = [strdelaIndex intValue];
+        
+    }
+}
 
 -(float )getYouhui{
     
@@ -535,6 +598,33 @@
                     
                 }
             }
+        }else if(request.tag == 3){
+            
+            NSDictionary *dict = [request.responseString JSONValue];
+            
+            if (dict) {
+                
+                BOOL result = [[dict objectForKey:@"result"] boolValue];
+                if (!result) {
+//
+                    NSString    *strTotal = [[dict valueForKey:@"total"] description];
+                    NSString    *strYouhui = [[dict valueForKey:@"discount"] description];
+                    
+                    UILabel *labelTotal = (UILabel*)[scrollView viewWithTag:3000];
+                    [labelTotal setText:strTotal];
+                    UILabel *labelYouhui = (UILabel*)[scrollView viewWithTag:2000];
+                    [labelYouhui setText:strYouhui];
+
+                }
+                else{
+                    NSString *strMSG = [dict objectForKey:@"message"];
+                    
+                    [DYBShareinstaceDelegate popViewText:strMSG target:self hideTime:.5f isRelease:YES mode:MagicPOPALERTVIEWINDICATOR];
+                    
+                    
+                }
+            }
+            
         }else if(request.tag == 4){
             
             NSDictionary *dict = [request.responseString JSONValue];
@@ -543,7 +633,7 @@
                 
                 BOOL result = [[dict objectForKey:@"result"] boolValue];
                 if (!result) {
-//                    arrayCard = [dict iboΩ];
+                    //                    arrayCard = [dict iboΩ];
                     arrayCard = [[NSArray alloc]initWithArray:[dict objectForKey:@"dealsList"]];
                     [_tableView1 reloadData];
                 }

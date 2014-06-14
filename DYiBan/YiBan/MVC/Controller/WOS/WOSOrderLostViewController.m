@@ -125,8 +125,8 @@
 -(void)backMan{
     
     
-    
-//    WOSLogInViewController *login = [[WOSLogInViewController alloc]init];
+  
+//   WOSLogInViewController *login = [[WOSLogInViewController alloc]init];
 //    [self.drNavigationController pushViewController:login animated:YES];
 //    RELEASE(login);
     
