@@ -135,7 +135,6 @@
         
         _phoneInputName = [[DYBInputView alloc]initWithFrame:CGRectMake(60, 0, INPUTWIDTH, INPUTHEIGHT) placeText:@"请设置密码" textType:0];
         [_phoneInputName.layer AddborderByIsMasksToBounds:YES cornerRadius:4 borderWidth:1 borderColor:[[UIColor clearColor] CGColor]];
-        [_phoneInputName.nameField setText:@"zxw1"];
         _phoneInputName.nameField.secureTextEntry = YES;
         _phoneInputName.tag = 1001;
         [_phoneInputName.nameField setTextColor:[UIColor whiteColor]];
@@ -152,7 +151,6 @@
         
       DYBInputView*  _phoneInputAddr = [[DYBInputView alloc]initWithFrame:CGRectMake(60, imageK.size.height/2/2/2+ 15, INPUTWIDTH, INPUTHEIGHT) placeText:@"请再次输入密码" textType:0];
         [_phoneInputAddr.layer AddborderByIsMasksToBounds:YES cornerRadius:4 borderWidth:1 borderColor:[[UIColor clearColor] CGColor]];
-        [_phoneInputAddr.nameField setText:@"zxw1"];
         _phoneInputAddr.tag = 1002;
         _phoneInputAddr.nameField.secureTextEntry = YES;
         [_phoneInputAddr.nameField setTextColor:[UIColor whiteColor]];

@@ -73,7 +73,13 @@ DEF_SIGNAL(BTNTWO);
     
     if ([signal is:[MagicViewController LAYOUT_VIEWS]])
     {
+      
         [self.headview setTitle:@"餐厅详情"];
+        
+        if ([_dictInfo valueForKey:@"kitchenName"])
+        {
+            [self.headview setTitle:[_dictInfo valueForKey:@"kitchenName"]];
+        }
 
         [self.headview setTitleColor:[UIColor whiteColor]];
         [self setButtonImage:self.leftButton setImage:@"返回键"];
@@ -125,14 +131,22 @@ DEF_SIGNAL(BTNTWO);
      [labelBanner setBackgroundColor:[UIColor clearColor]];
     RELEASE(labelBanner);
     
+    [self.headview setTitle:[dict valueForKey:@"kitchenName"]];
     
-    
+    //kitchenName
     UILabel *labelDistance = [[UILabel alloc]initWithFrame:CGRectMake(10.0f, self.headHeight + 116/2 , 140.0f, 30)];
    
+    AppDelegate *app = appDelegate;
+    NSArray *arraMyGps = [app.gps componentsSeparatedByString:@","];
     
+    double lat = 0;
+    double lon = 0;
     
-    double lat = SHARED.mylocation.latitude;
-    double lon = SHARED.mylocation.longitude;
+    if ([arraMyGps count])
+    {
+        lat = [arraMyGps[1] floatValue];
+        lon = [arraMyGps[0] floatValue];
+    }
     NSString *gps = [dict objectForKey:@"gps"];
     NSArray *arrayGPS = [gps componentsSeparatedByString:@","];
     double tt = [DYBShareinstaceDelegate getDsitance_lat_a:lat lng_a:lon lat_b:[[arrayGPS objectAtIndex:0] doubleValue] lng_b:[[arrayGPS objectAtIndex:1] doubleValue]];
@@ -140,6 +154,7 @@ DEF_SIGNAL(BTNTWO);
     
     
     [self.view addSubview:labelDistance];
+    [labelDistance setTextColor:[UIColor blackColor]];
     [labelDistance setFont:[UIFont systemFontOfSize:13]];
     [labelDistance setBackgroundColor:[UIColor clearColor]];
     RELEASE(labelDistance);
@@ -154,7 +169,7 @@ DEF_SIGNAL(BTNTWO);
     
 
     UIImage *imageC = [UIImage imageNamed:@"心描边"];
-   btnCollect = [[UIButton alloc]initWithFrame:CGRectMake(537/2, self.headHeight + 10, imageC.size.width/2, imageC.size.height/2)];
+    btnCollect = [[UIButton alloc]initWithFrame:CGRectMake(537/2, self.headHeight + 10, imageC.size.width/2, imageC.size.height/2)];
     if ([[dict objectForKey:@"isFavorite"] boolValue]) {
         [btnCollect setImage:[UIImage imageNamed:@"心填充"] forState:UIControlStateNormal];
          [btnCollect setEnabled:NO];
@@ -170,7 +185,7 @@ DEF_SIGNAL(BTNTWO);
     RELEASE(btnCollect);
     
     UILabel *labelCellect1 = [[UILabel alloc]initWithFrame:CGRectMake(537/2 - 30, CGRectGetHeight(btnCollect.frame) +CGRectGetMinY(btnCollect.frame), btnCollect.frame.size.width+60, 21)];
-    [labelCellect1 setText:[NSString stringWithFormat:@"%@收藏",[dict objectForKey:@"favorTimes"] ]];
+    [labelCellect1 setText:[NSString stringWithFormat:@"%@人收藏",[dict objectForKey:@"favorTimes"] ]];
     [labelCellect1 setTextAlignment:NSTextAlignmentCenter];
     [self.view addSubview:labelCellect1];
     RELEASE(labelCellect1);
@@ -183,6 +198,7 @@ DEF_SIGNAL(BTNTWO);
     self.endTime = [dict objectForKey:@"businessTimeEnd"];
     [labelTime setFont:[UIFont systemFontOfSize:13]];
     [self.view addSubview:labelTime];
+    [labelTime setTextColor:[UIColor blackColor]];
     RELEASE(labelTime);
     
 }

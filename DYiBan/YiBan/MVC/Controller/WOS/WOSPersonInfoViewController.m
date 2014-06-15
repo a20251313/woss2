@@ -26,6 +26,8 @@
 
 #import "WOSPreferentialCardViewController.h"
 
+#import "WOSModifyPwdViewController.h"
+
 #import "WOSMoreInfoViewController.h"
 #import "WOSFindFoodViewController.h"
 #import "Cell2.h"
@@ -247,6 +249,10 @@
 
 -(void)modifiedPwd:(id)sender
 {
+    
+    WOSModifyPwdViewController *controller = [[WOSModifyPwdViewController alloc] init];
+    [self.drNavigationController pushViewController:controller animated:YES];
+    [controller release];
     
     DLogInfo(@"modifiedPwd:%@",sender);
     
@@ -651,7 +657,7 @@
     
     
     UILabel *labelScore = (UILabel*)[self.view viewWithTag:1001];
-    [labelScore setText:[NSString stringWithFormat:@"我地积分:%@",myuser.points]];
+    [labelScore setText:[NSString stringWithFormat:@"我的积分:%@",myuser.points]];
     
     UILabel *labelPhone = (UILabel*)[self.view viewWithTag:1002];
     [labelPhone setText:[NSString stringWithFormat:@"绑定手机:%@",myuser.phone]];

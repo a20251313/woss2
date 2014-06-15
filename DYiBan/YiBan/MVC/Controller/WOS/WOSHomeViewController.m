@@ -46,12 +46,30 @@
     UIView *viewBar2;
     
     UIView *viewBowwonView;
+    
+    
+    UIView *viewPaiX;
+    UIView *fenlei;
+    UIView *youhui;
+    
+    int typeIndex;
+    int orderType;
+    BOOL hasDiscount ;
+    BOOL freeDrink ;
+    BOOL freeDeliver;
+    int orderBy;
+    
+    
+    CLLocationCoordinate2D coordinate2D;
+    CLLocationManager *locManager;
+    
+    AppDelegate *app;
 }
-
+@property (nonatomic,retain)NSMutableArray *arrayShopList;
 @end
 
 @implementation WOSHomeViewController
-
+@synthesize arrayShopList;
 
 DEF_SIGNAL(TOUCHBUTTON)
 
@@ -111,11 +129,18 @@ DEF_SIGNAL(TOUCHBUTTON)
     }
     else if ([signal is:[MagicViewController CREATE_VIEWS]]) {
         
-        bMap = NO;
+        app = appDelegate;
         
+        [self doSure_getSource];
+        
+        bMap = NO;
+        arrayShopList = [[NSMutableArray alloc]init];
         [self.headview setHidden:YES];
         [self.view bringSubviewToFront:btnLeft];
         
+        typeIndex = 700;
+        orderType = 2;
+        orderBy = 1;
         
         viewBG = [[UIView alloc]initWithFrame:self.view.frame];
         [self.view addSubview:viewBG];
@@ -125,8 +150,8 @@ DEF_SIGNAL(TOUCHBUTTON)
         MagicRequest *request = [DYBHttpMethod wosKitchenInfo_activityList_count:@"4" sAlert:YES receive:self];
         [request setTag:3];
         
-        
-        MagicRequest *request1 = [DYBHttpMethod wosgoodFood_typeIndex:@"100" orderBy:@"1" page:@"0" count:@"14" orderType:@"1"  sAlert:YES receive:self];
+        [NSString stringWithFormat:@""];
+        MagicRequest *request1 = [DYBHttpMethod wosgoodFood_typeIndex:[NSString stringWithFormat:@"%d",typeIndex] orderBy:[NSString stringWithFormat:@"%d",orderBy] page:@"0" count:@"1400" orderType:[NSString stringWithFormat:@"%d",orderType]  sAlert:YES receive:self];
         [request1 setTag:2];
         
        scrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0.0f, self.headHeight- 44, 320, self.view.frame.size.height+ 44 - self.headHeight + 44)];
@@ -137,7 +162,7 @@ DEF_SIGNAL(TOUCHBUTTON)
         
         [self.rightButton setHidden:YES];
         
-        [self creatBowwon2];
+//        [self creatBowwon2];
         [self creatBowwonView];
         
         
@@ -384,6 +409,10 @@ static NSString *cellName = @"cellName";//
 //        [[DYBUITabbarViewController sharedInstace] hideTabBar:YES animated:YES];
         
         [viewBar2 setHidden:YES];
+        
+        [viewPaiX setHidden:YES];
+        [fenlei setHidden:YES];
+        [youhui setHidden:YES];
         [self hideTabBar:YES animated:YES setView:viewBowwonView];
 //         [self hideTabBar:YES animated:YES setView:viewBar2];
         
@@ -391,6 +420,9 @@ static NSString *cellName = @"cellName";//
 //        [_tbv StretchingUpOrDown:1];
 //        [[DYBUITabbarViewController sharedInstace] hideTabBar:NO animated:YES];
          [viewBar2 setHidden:YES];
+        [viewPaiX setHidden:YES];
+        [fenlei setHidden:YES];
+        [youhui setHidden:YES];
          [self hideTabBar:NO animated:YES setView:viewBowwonView];
 //         [self hideTabBar:NO animated:YES setView:viewBar2];
         
@@ -757,9 +789,336 @@ static NSString *cellName = @"cellName";//
             
         }
         
+        
+        
+        float version = [[UIDevice currentDevice].systemVersion floatValue];
+        int offset1 = 0;
+        if (version < 7.0) {
+            offset1 = 20;
+        }
+        
+        
+        
+        CGRect rect = CGRectMake(0.0f, self.view.frame.size.height - 40 - 20  , 320.0f, 40.0f);
+        
+        switch (btn.tag) {
+            case 100:
+            {
+                if (!viewPaiX) {
+                    
+                    viewPaiX = [[UIView alloc]initWithFrame:rect];
+                    [self.view addSubview:viewPaiX];
+                    RELEASE(viewPaiX);
+                    [viewPaiX setBackgroundColor:[UIColor colorWithRed:40.0f/255 green:191.0f/255 blue:140.0f/255 alpha:1.0f]];
+                    [viewPaiX setAlpha:0.7];
+                    UIButton *btn1 = [[UIButton alloc]initWithFrame:CGRectMake(0, 0.0f, 160.0f, 40.0f)];
+                    [btn1 setTag:10000];
+                    [btn1 setTitle:@"距离优先" forState:UIControlStateNormal];
+                    [btn1 addTarget:self action:@selector(setCan:) forControlEvents:UIControlEventTouchUpInside];
+                    [viewPaiX addSubview:btn1];
+                    RELEASE(btn1);
+                    
+                    
+                    UIButton *btn2 = [[UIButton alloc]initWithFrame:CGRectMake(160, 0.0f, 160.0f, 40.0f)];
+                    [btn2 setTag:10001];
+                    [btn2 setTitle:@"热门优先" forState:UIControlStateNormal];
+                    [btn2 addTarget:self action:@selector(setCan:) forControlEvents:UIControlEventTouchUpInside];
+                    [viewPaiX addSubview:btn2];
+                    RELEASE(btn2);
+                }else{
+                
+                    [viewPaiX setHidden:NO];
+                }
+                
+
+                if (fenlei) {
+                    [fenlei setHidden:YES];
+                }
+                
+                if (youhui) {
+                    [youhui setHidden:YES];
+                }
+                
+            }
+                break;
+            case 101:
+            {
+            
+                if (!fenlei) {
+                    
+                    
+                    float offset = 320/6;
+                    
+                    fenlei = [[UIView alloc]initWithFrame:rect];
+                    [fenlei setBackgroundColor:[UIColor colorWithRed:40.0f/255 green:191.0f/255 blue:140.0f/255 alpha:1.0f]];
+                    [fenlei setAlpha:0.7];
+                    [self.view addSubview:fenlei];
+                    RELEASE(fenlei);
+                    
+                    for (int i = 0; i < 6; i++) {
+                        
+                        UIButton *btn1 = [[UIButton alloc]initWithFrame:CGRectMake(i * offset, 0.0f, offset, 40.0f)];
+
+                        
+                        [btn1 setTag:10002 + i];
+                        [btn1 setTitle:[self getT:i] forState:UIControlStateNormal];
+                        [btn1 addTarget:self action:@selector(setCan:) forControlEvents:UIControlEventTouchUpInside];
+                        [fenlei addSubview:btn1];
+                        
+                    }
+                    
+                }else{
+                    
+                    [fenlei setHidden:NO];
+                }
+                
+                
+                if (viewPaiX) {
+                    [viewPaiX setHidden:YES];
+                }
+                
+                if (youhui) {
+                    [youhui setHidden:YES];
+                }
+
+
+            
+            }
+                break;
+            case 102:
+            {
+                [viewPaiX setHidden:YES];
+                [fenlei setHidden:YES];
+                [youhui setHidden:YES];
+                
+                typeIndex = 700;
+                
+                MagicRequest *request1 = [DYBHttpMethod wosgoodFood_typeIndex:[NSString stringWithFormat:@"%d",typeIndex] orderBy:[NSString stringWithFormat:@"%d",orderBy] page:@"0" count:@"1400" orderType:[NSString stringWithFormat:@"%d",orderType]  sAlert:YES receive:self];
+                [request1 setTag:2];
+
+            }
+                break;
+            case 103:
+            {
+                if (!youhui) {
+                    
+                    
+                    float offset = 320/3;
+                    
+                    youhui = [[UIView alloc]initWithFrame:rect];
+                    [youhui setBackgroundColor:[UIColor colorWithRed:40.0f/255 green:191.0f/255 blue:140.0f/255 alpha:1.0f]];
+                    [youhui setAlpha:0.7];
+                    [self.view addSubview:youhui];
+                    RELEASE(youhui);
+                    
+                    for (int i = 0; i < 3; i++) {
+                        
+                        UIButton *btn1 = [[UIButton alloc]initWithFrame:CGRectMake(i * offset, 0.0f, offset, 40.0f)];
+                        
+                        
+                        [btn1 setTag:10009 + i];
+                        [btn1 setTitle:[self getT1:i] forState:UIControlStateNormal];
+                        [btn1 addTarget:self action:@selector(setCan:) forControlEvents:UIControlEventTouchUpInside];
+                        [youhui addSubview:btn1];
+                        
+                    }
+                    
+                }else{
+                    
+                    [youhui setHidden:NO];
+                }
+                
+                
+                if (viewPaiX) {
+                    [viewPaiX setHidden:YES];
+                }
+                
+                if (fenlei) {
+                    [fenlei setHidden:YES];
+                }
+
+                
+
+            }
+                break;
+                
+            default:
+                break;
+        }
+        
     }
 }
 
+-(void)setCan:(id)sender{
+    
+    UIButton *btn = (UIButton *)sender;
+
+    switch (btn.tag) {
+        case 10000:
+        {
+            orderType = 5;
+        
+            [viewPaiX setHidden:YES];
+            
+            
+            if (app.gps.length == 0) {
+                
+                 [DYBShareinstaceDelegate loadFinishAlertView:@"没有开启定位，无法次操作" target:self showTime:.8f];
+                
+                return;
+            }
+            
+        }
+            break;
+            
+        case 10001:
+        {
+            
+             orderType = 2;
+            [viewPaiX setHidden:YES];
+        }
+            break;
+        case 10002:
+        {
+            typeIndex  = 100;
+            [fenlei setHidden:YES];
+        }
+            break;
+        case 10003:
+        {
+            
+            typeIndex  = 200;[fenlei setHidden:YES];
+        }
+            break;
+        case 10004:
+        {
+            typeIndex  = 300;
+            [fenlei setHidden:YES];
+        }
+            break;
+        case 10005:
+        {
+            typeIndex  = 400;
+            [fenlei setHidden:YES];
+        }
+            break;
+        case 10006:
+        {
+            typeIndex  = 600;
+            [fenlei setHidden:YES];
+        }
+            break;
+        case 10007:
+        {
+             typeIndex  = 500;
+            [fenlei setHidden:YES];
+        }
+            break;
+        case 10008:
+        {
+            
+        }
+            break;
+        case 10009:
+        {
+            
+            [youhui setHidden:YES];
+            hasDiscount = YES;
+            
+        }
+            break;
+        case 10010:
+        {
+            
+            [youhui setHidden:YES];
+            freeDeliver = YES;
+            
+        }
+            break;
+        case 10011:
+        {
+            
+            [youhui setHidden:YES];
+            freeDrink = YES;
+            
+            
+        }
+            break;
+            
+        default:
+            break;
+    }
+
+    MagicRequest *request1 = [DYBHttpMethod wosgoodFood_typeIndex:[NSString stringWithFormat:@"%d",typeIndex] orderBy:[NSString stringWithFormat:@"%d",orderBy] page:@"0" count:@"1400" orderType:[NSString stringWithFormat:@"%d",orderType]  sAlert:YES receive:self];
+    [request1 setTag:2];
+    
+}
+
+-(NSString *)getT1:(int)index{
+
+
+    switch (index ) {
+        case 0:
+        {
+            return @"打折";
+        }
+            break;
+        case 1:
+        {
+            return @"免费配送";
+        }
+            break;
+        case 2:
+        {
+            return @"送饮品";
+            
+        }
+        default:
+            break;
+    }
+    return nil;
+}
+
+-(NSString *)getT:(int)index{
+
+    switch (index ) {
+        case 0:
+        {
+        return @"中餐";
+        }
+            break;
+        case 1:
+        {
+             return @"西餐";
+        }
+            break;
+        case 2:
+        {
+            return @"小吃";
+
+        }
+            break;
+        case 3:
+        {
+            return @"火锅";
+        }
+            break;
+        case 4:
+        {
+            return @"清真";
+        }
+            break;
+        case 5:
+        {
+            return @"甜点";
+        }
+            break;
+            
+        default:
+            break;
+    }
+
+}
 -(void)creatBanner{
     
     //添加最后一张图 用于循环
@@ -958,19 +1317,28 @@ static NSString *cellName = @"cellName";//
                 BOOL result = [[dict objectForKey:@"result"] boolValue];
                 if (!result) {
                     
-                    arrayShopList = [[NSMutableArray alloc]initWithArray: [dict objectForKey:@"kitchenList"]];
-//                    [tabelViewList reloadData];
-                    tabelViewList = [[MagicUITableView alloc]initWithFrame:CGRectMake(0.0f, 240/2 + self.headHeight, 320.0f, self.view.frame.size.height - CGRectGetMinY(bannerView.frame) - CGRectGetHeight(bannerView.frame))];
-                    [tabelViewList setTableViewType:DTableViewSlime];
-                    [viewBG insertSubview:tabelViewList atIndex:1];
-//                    [self.view addSubview:tabelViewList];
-                    NSLog(@"tableview --- %@",tabelViewList);
-                    RELEASE(tabelViewList)
+                    if ( !tabelViewList) {
+                       self.arrayShopList =  [dict objectForKey:@"kitchenList"];
+                        //                    [tabelViewList reloadData];
+                        tabelViewList = [[MagicUITableView alloc]initWithFrame:CGRectMake(0.0f, 240/2 + self.headHeight, 320.0f, self.view.frame.size.height - CGRectGetMinY(bannerView.frame) - CGRectGetHeight(bannerView.frame))];
+                        [tabelViewList setTableViewType:DTableViewSlime];
+                        [viewBG insertSubview:tabelViewList atIndex:1];
+                        //                    [self.view addSubview:tabelViewList];
+                        NSLog(@"tableview --- %@",tabelViewList);
+                        RELEASE(tabelViewList)
+                        
+                        _mapViewController = [[MapViewController alloc] initWithFrame:CGRectMake(0.0f, self.headHeight + 0 , 320.0f, self.view.bounds.size.height - self.headHeight + 20)];
+                        _mapViewController.delegate = self;
+                        [_mapViewController setHidden:YES];
+                        [self.view insertSubview:_mapViewController atIndex:2];
+                    }else{
                     
-                    _mapViewController = [[MapViewController alloc] initWithFrame:CGRectMake(0.0f, self.headHeight + 0 , 320.0f, self.view.bounds.size.height - self.headHeight)];
-                    _mapViewController.delegate = self;
-                    [_mapViewController setHidden:YES];
-                    [self.view insertSubview:_mapViewController atIndex:2];
+                        [arrayShopList removeAllObjects];
+                        self.arrayShopList = [dict objectForKey:@"kitchenList"];
+                     
+                        [tabelViewList reloadData];
+                    }
+                    
 //                    [self.view addSubview:_mapViewController];
 
                 }else{
@@ -1052,4 +1420,95 @@ static NSString *cellName = @"cellName";//
     [search release];
     
 }
+
+//
+///**
+// *用户位置更新后，会调用此函数
+// *@param mapView 地图View
+// *@param userLocation 新的用户位置
+// */
+//
+- (void)mapView:(BMKMapView *)mapView didUpdateUserLocation:(BMKUserLocation *)userLocation
+{
+	if (userLocation != nil) {
+		NSLog(@"%f %f", userLocation.location.coordinate.latitude, userLocation.location.coordinate.longitude);
+        
+        //        CLLocationDistance radiusMeters = 500; //设置搜索范围
+        //        [_search poiMultiSearchNearBy:@[@"学校", @"美食", @"小区", @"交通"] center:_mapView.centerCoordinate radius:radiusMeters pageIndex:0];
+        
+        //        [_searchTest reverseGeocode:mapView.userLocation.location.coordinate];
+	}
+    
+}
+///**
+// *在地图View停止定位后，会调用此函数
+// *@param mapView 地图View
+// */
+- (void)mapViewDidStopLocatingUser:(BMKMapView *)mapView
+{
+    NSLog(@"stop locate");
+}
+//
+///**
+// *定位失败后，会调用此函数
+// *@param mapView 地图View
+// *@param error 错误号，参考CLError.h中定义的错误号
+// */
+- (void)mapView:(BMKMapView *)mapView didFailToLocateUserWithError:(NSError *)error
+{
+    NSLog(@"location error");
+}
+//
+//
+- (void)onGetAddrResult:(BMKAddrInfo*)result errorCode:(int)error{
+    NSLog(@"%@", result.strAddr);
+    
+}
+- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation{
+    NSLog(@"%f,%f",newLocation.coordinate.latitude,newLocation.coordinate.longitude);
+    
+    coordinate2D.latitude = newLocation.coordinate.latitude;
+    coordinate2D.longitude = newLocation.coordinate.longitude;
+    
+    
+    CLGeocoder* geocoder = [[CLGeocoder alloc] init];
+    
+    [geocoder reverseGeocodeLocation:newLocation completionHandler:
+     ^(NSArray* placemarks, NSError* error){
+         NSLog(@"%@",placemarks);
+         
+      //   CLPlacemark *placemark = [placemarks objectAtIndex:0];
+      //   NSArray *names = [placemark.addressDictionary objectForKey:@"FormattedAddressLines"];
+         
+         if (app.gps.length == 0) {
+             
+             
+            
+             
+            app.gps = [NSString stringWithFormat:@"%f,%f",newLocation.coordinate.longitude,newLocation.coordinate.latitude];
+        
+             
+         }
+         
+         
+         
+     }];
+}
+- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error{
+    NSLog(@"%@",error);
+}
+
+
+-(void)doSure_getSource{
+    
+    locManager = [[CLLocationManager alloc] init];
+    locManager.delegate = self;
+    locManager.desiredAccuracy = kCLLocationAccuracyBest;
+    locManager.distanceFilter = 5.0;
+    [locManager startUpdatingLocation];
+    
+    
+}
+
+
 @end

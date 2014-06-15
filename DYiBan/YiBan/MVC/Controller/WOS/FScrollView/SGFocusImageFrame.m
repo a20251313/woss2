@@ -137,11 +137,11 @@ static CGFloat SWITCH_FOCUS_PICTURE_INTERVAL = 5.0; //switch interval time
 
         [imageView setText:[_arrayString objectAtIndex:i]];
         
-        imageView.backgroundColor = i%2?[UIColor redColor]:[UIColor blueColor];
+//        imageView.backgroundColor = i%2?[UIColor redColor]:[UIColor blueColor];
         
         
         UIImageView *imageViewSure = [[UIImageView alloc]initWithFrame:CGRectMake((i +0) * _scrollView.frame.size.width, 0, _scrollView.frame.size.width, _scrollView.frame.size.height)];
-        [imageViewSure setBackgroundColor:[UIColor redColor]];
+//        [imageViewSure setBackgroundColor:[UIColor redColor]];
         [imageViewSure setImage:[UIImage imageNamed:[_arrayImage objectAtIndex:i]]];
         [imageViewSure setImageWithURL:[NSURL URLWithString:[_arrayImage objectAtIndex:i]]];
         [imageViewSure setFrame:CGRectMake((i +0) * _scrollView.frame.size.width, 0, _scrollView.frame.size.width, _scrollView.frame.size.height)];

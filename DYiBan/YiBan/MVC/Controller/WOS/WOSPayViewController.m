@@ -102,7 +102,7 @@
         }
        scrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0.0f,self.headHeight+10, 320.0f, self.view.frame.size.height)];
         [self.view addSubview:scrollView];
-        RELEASE(scrollView);
+
         
         
         dictOrder = [[NSMutableDictionary alloc]init];
@@ -127,7 +127,7 @@
         
         
         
-        CGFloat    fypoint = _tableView.frame.origin.y+100;
+        CGFloat    fypoint = _tableView.frame.origin.y+100+40;
         UILabel *labelSave = [[UILabel alloc]initWithFrame:CGRectMake(10.0f,fypoint,60, 20.0f)];
         [labelSave setBackgroundColor:[UIColor clearColor]];
         [labelSave setText:@"优惠:"];
@@ -229,6 +229,7 @@
         _textremark.borderStyle = UITextBorderStyleNone;
         _textremark.layer.borderWidth = 1;
         _textremark.layer.borderColor = NORMALBORDORCOLOR.CGColor;
+        _textremark.textColor = TEXTCOLOR;
         _textremark.placeholder = @"请输入您的要求";
         [scrollView addSubview:_textremark];
         _textremark.delegate =  self;
@@ -360,13 +361,20 @@
         
     }
     
-    
+    NSString    *strDealIndex = nil;
+    if (!m_bUserDeal || dealsIndex <= 0)
+    {
+        
+    }else
+    {
+        strDealIndex = [NSString stringWithFormat:@"%d",dealsIndex];
+    }
     
     id  strKitch = @([[[NSUserDefaults standardUserDefaults]objectForKey:@"kitchenIndex"] intValue]);
  
 
     
-    MagicRequest *request = [DYBHttpMethod wosKitchenInfo_orderadd_userIndex:SHARED.userId kitchenIndex:strKitch userAddrIndex:addIndex persons:nil remarks:remaek dealsIndexs:nil foodIndexs:strFoodIndex countIndexs:strCountIndex sAlert:YES receive:self];
+    MagicRequest *request = [DYBHttpMethod wosKitchenInfo_orderadd_userIndex:SHARED.userId kitchenIndex:strKitch userAddrIndex:@"3" persons:@"1" remarks:remaek dealsIndexs:@"1" foodIndexs:strFoodIndex countIndexs:strCountIndex sAlert:YES receive:self];
     request.tag = 200;
     
     
@@ -687,7 +695,7 @@
     textField.layer.borderColor = HIGHLIGHTBORDORCOLOR.CGColor;
     textField.textColor = TEXTCOLOR;
     CGRect frame = scrollView.frame;
-    frame.origin.y -= 100;
+    frame.origin.y -= 140;
     [UIView animateWithDuration:0.3 animations:^{scrollView.frame = frame;}];
     
 }

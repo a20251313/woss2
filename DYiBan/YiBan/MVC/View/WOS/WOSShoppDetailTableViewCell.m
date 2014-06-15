@@ -56,6 +56,17 @@
     RELEASE(labelPrice);
     
     
+    
+    MagicUIImageView    *imageView = [[MagicUIImageView alloc] initWithFrame:CGRectMake(120,8, 30, 30)];
+    
+    NSURL *url = [NSURL URLWithString:[DYBShareinstaceDelegate addIPImage:[dict objectForKey:@"imgUrl"] ]];
+    [imageView setImageWithURL:url];
+    
+   // [imageView setImgWithUrl:[dict valueForKey:@"imgUrl"] defaultImg:nil];
+    [self.contentView addSubview:imageView];
+    [imageView release];
+    
+    
     UIImage *image = [UIImage imageNamed:@"加入"];
     DYBSetButton *btn = [[DYBSetButton alloc]initWithFrame:CGRectMake(510/2, 10.0f, 107/2, 60/2)];
     [btn setImage:image forState:UIControlStateNormal];

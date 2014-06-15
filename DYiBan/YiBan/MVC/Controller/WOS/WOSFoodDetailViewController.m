@@ -52,6 +52,10 @@
     if ([signal is:[MagicViewController LAYOUT_VIEWS]])
     {
         [self.headview setTitle:@"菜的详情"];
+        if ([dictDeatil valueForKey:@"foodName"])
+        {
+             [self.headview setTitle:[dictDeatil valueForKey:@"foodName"]];
+        }
         
         [self.headview setTitleColor:[UIColor whiteColor]];
         [self setButtonImage:self.leftButton setImage:@"返回键"];
@@ -99,21 +103,40 @@
     RELEASE(imageView1);
     
     
-    UILabel *labeName = [[UILabel alloc]initWithFrame:CGRectMake(50.0f, CGRectGetHeight(iamgeView.frame) + CGRectGetMinY(iamgeView.frame) + 20,250.0f, 40.0f)];
+    
+    CGFloat  fypoint =  CGRectGetHeight(iamgeView.frame) + CGRectGetMinY(iamgeView.frame) + 10;
+ 
+    
+    
+    
+    
+    UILabel *labeSummary = [[UILabel alloc]initWithFrame:CGRectMake(10, fypoint,250.0f, 30.0f)];
+    [labeSummary setText:@"菜品简介"];
+    [labeSummary setTextColor:ColorGreen];
+    [labeSummary setFont:[UIFont systemFontOfSize:22]];
+    [self.view addSubview:labeSummary];
+    [labeSummary release];
+    
+    
+    fypoint += 30+10;
+    UILabel *labeName = [[UILabel alloc]initWithFrame:CGRectMake(10,fypoint,250.0f, 30.0f)];
     [labeName setText:[dict objectForKey:@"foodName"]];
-    [labeName setTextColor:[UIColor whiteColor]];
+    [labeName setTextColor:[UIColor blackColor]];
     [self.view addSubview:labeName];
     [labeName release];
     
-    UILabel *labePrice = [[UILabel alloc]initWithFrame:CGRectMake(120.0f, CGRectGetHeight(iamgeView.frame) + CGRectGetMinY(iamgeView.frame) + 20,250.0f, 40.0f)];
+    
+      fypoint += 30+10;
+    UILabel *labePrice = [[UILabel alloc]initWithFrame:CGRectMake(10, fypoint,250.0f, 30.0f)];
     [labePrice setText:[NSString stringWithFormat:@"单价： ￥%@/份",[dict objectForKey:@"foodPrice"]]];
     [labePrice setTextColor:[UIColor blackColor]];
     [self.view addSubview:labePrice];
     [labePrice release];
     
     
+    fypoint += 30+20;
     UIImage *image2 = [UIImage imageNamed:@"加入订单"];
-    UIButton *btnBackR = [[UIButton alloc]initWithFrame:CGRectMake((320 - image2.size.width/2)/2, CGRectGetHeight(labePrice.frame) + CGRectGetMinY(labePrice.frame) + 20 + 10, image2.size.width/2, image2.size.height/2)];
+    UIButton *btnBackR = [[UIButton alloc]initWithFrame:CGRectMake((320 - image2.size.width/2)/2, fypoint, image2.size.width/2, image2.size.height/2)];
     [btnBackR setBackgroundColor:[UIColor clearColor]];
     [btnBackR setImage:[UIImage imageNamed:@"加入订单"] forState:UIControlStateNormal];
     [btnBackR addTarget:self action:@selector(addRisgin) forControlEvents:UIControlEventTouchUpInside];

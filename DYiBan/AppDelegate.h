@@ -9,10 +9,13 @@
 
 #import <UIKit/UIKit.h>
 
-//#import "BMapKit.h" /*百度地图Marker*/
+#import "BMapKit.h" /*百度地图Marker*/
+#import <CoreLocation/CoreLocation.h>
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate/*, BMKGeneralDelegate*/,UIScrollViewDelegate>{
-//    BMKMapManager* _mapManager;/*百度地图Marker*/
+#import <MapKit/MapKit.h>
+@interface AppDelegate : UIResponder <UIApplicationDelegate, BMKGeneralDelegate,UIScrollViewDelegate,CLLocationManagerDelegate>{
+    BMKMapManager* _mapManager;/*百度地图Marker*/
+
     
 }
 
@@ -20,5 +23,5 @@
 @property (nonatomic, retain)MagicNavigationController *navi;
 @property (nonatomic, retain)UIButton *btnOrder;
 @property (nonatomic, retain) NSMutableArray *arrayOrderList;
-
+@property (nonatomic, retain) NSString *gps;
 @end

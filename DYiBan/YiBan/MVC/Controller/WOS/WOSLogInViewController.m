@@ -225,6 +225,7 @@
         _phoneInputAddr = [[DYBInputView alloc]initWithFrame:CGRectMake(60, imageK.size.height/2/2/2+ 15, INPUTWIDTH, INPUTHEIGHT) placeText:@"密码" textType:0];
         [_phoneInputAddr.layer AddborderByIsMasksToBounds:YES cornerRadius:4 borderWidth:1 borderColor:[[UIColor clearColor] CGColor]];
         [_phoneInputAddr.nameField setText:@"zxw1"];
+        _phoneInputAddr.nameField.secureTextEntry = YES;
         [_phoneInputAddr.nameField setTextColor:[UIColor whiteColor]];
         [_phoneInputAddr setBackgroundColor:[UIColor clearColor]];
         [imageViewName addSubview:_phoneInputAddr];

@@ -1519,6 +1519,16 @@
     
 }
 
++ (MagicRequest *)wosChangePwd:(NSString *)loginName  oldPasswd:(NSString*)oldPasswd newPasswd:(NSString*)newPasswd  isAlert:(BOOL)isAlert receive:(id)receive{
+    
+    NSMutableDictionary *dict = [DYBHttpInterface wosChangePwd:loginName oldPasswd:oldPasswd newPasswd:newPasswd];
+    DYBRequest *request = AUTORELEASE([[DYBRequest alloc] init]);
+    MagicRequest *dre = [request DYBGET:dict isAlert:isAlert receive:receive];
+    return dre;
+    
+    
+}
+
 + (MagicRequest *)wosRegion_nickName:(NSString *)nickName passwd:(NSString *)passwd sex:(NSString *)sex email:(NSString*)strEmail phone:(NSString*)strPhone sAlert:(BOOL)isAlert receive:(id)receive{
 
     NSMutableDictionary *dict = [DYBHttpInterface wosRegion_nickName:nickName passwd:passwd sex:sex email:strEmail phone:strPhone];

@@ -214,6 +214,7 @@
 		28D2845519333D4C00DE0EA8 /* 60pt.png in Resources */ = {isa = PBXBuildFile; fileRef = 28D2844F19333D4C00DE0EA8 /* 60pt.png */; };
 		28D2845619333D4C00DE0EA8 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 28D2845119333D4C00DE0EA8 /* Default.png */; };
 		28D2845719333D4C00DE0EA8 /* launchimage-R4.png in Resources */ = {isa = PBXBuildFile; fileRef = 28D2845219333D4C00DE0EA8 /* launchimage-R4.png */; };
+		863B43D7194D419C00812C58 /* WOSModifyPwdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 863B43D6194D419C00812C58 /* WOSModifyPwdViewController.m */; };
 		B50E718318C5C6DA00A68FB7 /* WOSComplainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B50E718118C5C6DA00A68FB7 /* WOSComplainViewController.m */; };
 		B50E718818C5C71F00A68FB7 /* WOSYIJIANViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B50E718618C5C71F00A68FB7 /* WOSYIJIANViewController.m */; };
 		B50E718C18C5C73800A68FB7 /* WOSAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B50E718B18C5C73800A68FB7 /* WOSAboutViewController.m */; };
@@ -1697,6 +1698,8 @@
 		28D2844F19333D4C00DE0EA8 /* 60pt.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 60pt.png; sourceTree = "<group>"; };
 		28D2845119333D4C00DE0EA8 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		28D2845219333D4C00DE0EA8 /* launchimage-R4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "launchimage-R4.png"; sourceTree = "<group>"; };
+		863B43D5194D419C00812C58 /* WOSModifyPwdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WOSModifyPwdViewController.h; sourceTree = "<group>"; };
+		863B43D6194D419C00812C58 /* WOSModifyPwdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WOSModifyPwdViewController.m; sourceTree = "<group>"; };
 		B50E718018C5C6DA00A68FB7 /* WOSComplainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WOSComplainViewController.h; sourceTree = "<group>"; };
 		B50E718118C5C6DA00A68FB7 /* WOSComplainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WOSComplainViewController.m; sourceTree = "<group>"; };
 		B50E718518C5C71F00A68FB7 /* WOSYIJIANViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WOSYIJIANViewController.h; sourceTree = "<group>"; };
@@ -3988,6 +3991,8 @@
 				18F8FB0E1902B04200C0A3BD /* WOSShopDetail1ViewController.m */,
 				18002F59191FC558000E8484 /* WOSRegisterViewController.h */,
 				18002F5A191FC558000E8484 /* WOSRegisterViewController.m */,
+				863B43D5194D419C00812C58 /* WOSModifyPwdViewController.h */,
+				863B43D6194D419C00812C58 /* WOSModifyPwdViewController.m */,
 				285EC6F7192DF2A800C6277F /* WOSPayViewController.h */,
 				285EC6F8192DF2A800C6277F /* WOSPayViewController.m */,
 				1815241D1944BCD5009DA523 /* WOSSearchViewController.h */,
@@ -8173,6 +8178,7 @@
 				B598F438184EC39B009F283D /* WOSHomeViewController.m in Sources */,
 				B598F440184EC6A3009F283D /* LabelViewController.m in Sources */,
 				B598F441184EC6A3009F283D /* SGFocusImageFrame.m in Sources */,
+				863B43D7194D419C00812C58 /* WOSModifyPwdViewController.m in Sources */,
 				B598F442184EC6A3009F283D /* SGFocusImageItem.m in Sources */,
 				B598F499184EF188009F283D /* WOSGoodFoodViewController.m in Sources */,
 				B598F49F184EF34A009F283D /* WOSGoodFoodDownView.m in Sources */,

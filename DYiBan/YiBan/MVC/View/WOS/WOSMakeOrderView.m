@@ -17,9 +17,11 @@
 
     NSMutableDictionary *dictOrder;
     UILabel *label1 ;
+    UILabel *labelTime;
 
 }
 @synthesize nav,arrayResult;
+
 
 - (id)initWithFrame:(CGRect)frame arrayWithData:(NSMutableArray *)array
 {
@@ -33,6 +35,10 @@
     }
     return self;
 }
+
+
+
+
 -(void)creatView{
     
     
@@ -56,6 +62,7 @@
     
     UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0.0F, 305/2, 320.0F, self.frame.size.height - 305/2)];
     [view setBackgroundColor:[UIColor whiteColor]];
+    view.tag = 1000;
     [self addSubview:view];
     RELEASE(view);
     
@@ -67,12 +74,12 @@
     RELEASE(labelName);
     
     
-    UILabel *labelTime = [[UILabel alloc]initWithFrame:CGRectMake(0.0f, 35.0, 200.0f, 20)];
+    labelTime = [[UILabel alloc]initWithFrame:CGRectMake(0.0f, 35.0, 200.0f, 20)];
     [labelTime setText:@"预计15分钟"];
     [labelTime setCenter:CGPointMake(160.0f, 75/2)];
     [labelTime setFont:[UIFont systemFontOfSize:14]];
     [view addSubview:labelTime];
-    RELEASE(labelTime);
+
     
     UITableView *_tableView = [[UITableView alloc]initWithFrame:CGRectMake(0.0f, 50.0f, 320.0f, self.frame.size.height - 100 - 305/2 - 70)];
     [_tableView setDelegate:self];
@@ -231,6 +238,8 @@
 - (void)dealloc
 {
     
+    [labelTime release];
+    labelTime = nil;
     [super dealloc];
 }
 

@@ -101,8 +101,18 @@
     
     
     UILabel *labelNameDistance = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMinX(imageViewIcon.frame) + CGRectGetWidth(imageViewIcon.frame) + 10, 15.0f + CGRectGetMinY(start.frame), 120.0f, 20.0f)];
-    double lat = SHARED.mylocation.latitude;
-    double lon = SHARED.mylocation.longitude;
+    
+    AppDelegate *app = appDelegate;
+    NSArray *arraMyGps = [app.gps componentsSeparatedByString:@","];
+    
+    double lat = 0;
+    double lon = 0;
+    
+    if ([arraMyGps count])
+    {
+        lat = [arraMyGps[1] floatValue];
+        lon = [arraMyGps[0] floatValue];
+    }
     NSString *gps = [dict objectForKey:@"gps"];
     NSArray *arrayGPS = [gps componentsSeparatedByString:@","];
     double tt = [DYBShareinstaceDelegate getDsitance_lat_a:lat lng_a:lon lat_b:[[arrayGPS objectAtIndex:0] doubleValue] lng_b:[[arrayGPS objectAtIndex:1] doubleValue]];

@@ -24,6 +24,9 @@
 #import "WOSMakeOrderView.h"
 #import "DYBUITabbarViewController.h"
 
+
+
+
 @implementation AppDelegate
 {
 //    MagicNavigationController *navi;
@@ -35,7 +38,7 @@
     CGPoint ptBegin;
 }
 @synthesize window = _window;
-@synthesize navi = _navi,btnOrder = _btnOrder,arrayOrderList = _arrayOrderList;
+@synthesize navi = _navi,btnOrder = _btnOrder,arrayOrderList = _arrayOrderList,gps;
 - (void)dealloc
 {
     [_window release];
@@ -44,6 +47,13 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    
+    _mapManager = [[BMKMapManager alloc]init];
+    BOOL ret = [_mapManager start:@"617FCCA9F13CB57FCCFB3AF4F4356367248A9BBA" generalDelegate:self];
+    if (!ret) {
+    	NSLog(@"manager start failed!");
+    }
+    
     self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
     
     self.arrayOrderList = [[NSMutableArray alloc]init];
@@ -84,14 +94,17 @@
     //*****************百度地图Marker******************
     //*******以下5行代码不要删，是百度地图注册！！！********
     //************************************************
-//    _mapManager = [[BMKMapManager alloc]init];
-//    BOOL ret = [_mapManager start:@"617FCCA9F13CB57FCCFB3AF4F4356367248A9BBA" generalDelegate:self];
-//    if (!ret) {
-//    	NSLog(@"manager start failed!");
-//    }
+    
 
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
+    
+//  CLLocationManager *  locationManager = [[CLLocationManager alloc]init ];
+//    locationManager.delegate = self;
+//    
+//    locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+//    [locationManager startUpdatingLocation];
+    
     return YES;
 }
 

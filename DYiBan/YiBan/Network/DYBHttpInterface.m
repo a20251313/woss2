@@ -1870,6 +1870,21 @@
 
 }
 
+
+//oldPasswd:(NSString*)oldPasswd newPasswd:(NSString*)newPasswd
+
++ (NSMutableDictionary *)wosChangePwd:(NSString *)userLoginName oldPasswd:(NSString*)oldPasswd newPasswd:(NSString*)newPasswd
+{
+    
+    NSMutableDictionary * dict = AUTORELEASE([[NSMutableDictionary alloc] init]);
+    [dict setValue:userLoginName forKey:@"loginName"];
+    [dict setValue:oldPasswd forKey:@"oldPasswd"];
+    [dict setValue:newPasswd forKey:@"newPasswd"];
+    [dict setValue:@"me/changePassword.do" forKey:INTERFACEDOACTION];
+    return dict;
+    
+}
+
 + (NSMutableDictionary *)wosAllinfo:(NSString *)userIndex{
     
     NSMutableDictionary * dict = AUTORELEASE([[NSMutableDictionary alloc] init]);
@@ -1895,14 +1910,23 @@
 + (NSMutableDictionary *)wosgoodFood_typeIndex:(NSString *)typeIndex  orderBy:(NSString *)orderBy  page:(NSString *)page count:(NSString *)count orderType:(NSString *)orderType{
     
     NSMutableDictionary * dict = AUTORELEASE([[NSMutableDictionary alloc] init]);
-    [dict setValue:typeIndex forKey:@"typeIndex"];
+    
+    if ([typeIndex intValue] != 700) {
+        [dict setValue:typeIndex forKey:@"typeIndex"];
+        
+    }
     [dict setValue:orderBy forKey:@"orderBy"];
     [dict setValue:orderType forKey:@"orderType"];
     [dict setValue:page  forKey:@"page"];
     [dict setValue:count forKey:@"count"];
+    
+    AppDelegate *app = appDelegate;
+    NSString *pgs = app.gps;
+    [dict setValue:pgs forKey:@"gps"];
+    
     [dict setValue:@"kitchen/list.do" forKey:INTERFACEDOACTION];
     return dict;
-
+    
 }
 //kitchen/info.do
 

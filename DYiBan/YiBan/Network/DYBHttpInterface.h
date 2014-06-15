@@ -433,6 +433,8 @@
 + (NSMutableDictionary *)wosLogin_nickName:(NSString *)nickName passwd:(NSString *)passwd;
 
 
++ (NSMutableDictionary *)wosChangePwd:(NSString *)userLoginName oldPasswd:(NSString*)oldPasswd newPasswd:(NSString*)newPasswd;
+
 //获取个人信息
 + (NSMutableDictionary *)wosAllinfo:(NSString *)userIndex;
 
