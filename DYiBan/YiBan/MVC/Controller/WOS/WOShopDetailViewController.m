@@ -200,6 +200,7 @@ DEF_SIGNAL(BTNTWO);
   
     [labelCellect1 setTextAlignment:NSTextAlignmentCenter];
     [self.view addSubview:labelCellect1];
+    [labelCellect1 setBackgroundColor:[UIColor clearColor]];
     RELEASE(labelCellect1);
 
     
@@ -209,6 +210,7 @@ DEF_SIGNAL(BTNTWO);
     self.startTime = [dict objectForKey:@"businessTimeBegin"];
     self.endTime = [dict objectForKey:@"businessTimeEnd"];
     [labelTime setFont:[UIFont systemFontOfSize:13]];
+    [labelTime setBackgroundColor:[UIColor clearColor]];
     [self.view addSubview:labelTime];
     [labelTime setTextColor:[UIColor blackColor]];
     RELEASE(labelTime);

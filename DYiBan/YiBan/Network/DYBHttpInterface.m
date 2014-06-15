@@ -1971,6 +1971,21 @@
 
 }
 //food/list.do
+
+//wosSuggest:(NSString *)userIndex suggestion:(NSString*)suggestion suggestType:(NSString*)type
+
+
++ (NSMutableDictionary *)wosSuggest:(NSString *)userIndex suggestion:(NSString*)suggestion suggestType:(NSString*)type{
+    
+    NSMutableDictionary * dict = AUTORELEASE([[NSMutableDictionary alloc] init]);
+    [dict setValue:userIndex  forKey:@"userIndex"];
+     [dict setValue:suggestion  forKey:@"suggestion"];
+     [dict setValue:type  forKey:@"suggestType"];
+    
+    [dict setValue:@"suggestion/add.do" forKey:INTERFACEDOACTION];
+    return dict;
+    
+}
 + (NSMutableDictionary *)wosKitchenInfo_foodlist:(NSString *)kitchenIndex{
     
     NSMutableDictionary * dict = AUTORELEASE([[NSMutableDictionary alloc] init]);

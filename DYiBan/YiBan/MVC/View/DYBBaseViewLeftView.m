@@ -196,6 +196,12 @@ DEF_SIGNAL(PERSONINFOIMAGE)
             
         }
             break;
+        case 14:
+        {
+            [self sendViewSignal:[DYBBaseViewLeftView SELECTBUTTON] withObject:btn from:self];
+            
+        }
+            break;
             
         default:
             break;

@@ -456,6 +456,9 @@
 + (NSMutableDictionary *)wosKitchenInfo_commentkitchenlist:(NSString *)kitchenIndex starLevel:(NSString *)starLevel page :(NSString *)page  count:(NSString *)count;
 
 
++ (NSMutableDictionary *)wosSuggest:(NSString *)userIndex suggestion:(NSString*)suggestion suggestType:(NSString*)type;
+
+
 + (NSMutableDictionary *)wosKitchenInfo_foodlist:(NSString *)kitchenIndex;
 
 + (NSMutableDictionary *)wosKitchenInfo_commentadd:(NSString *)commentFor orderIndex :(NSString *)orderIndex userIndex :(NSString *)userIndex commentType :(NSString *)commentType starLevel :(NSString *)starLevel comment:(NSString *)comment;

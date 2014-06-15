@@ -1578,6 +1578,17 @@
 
 }
 
+
++ (MagicRequest *)wosSuggest:(NSString *)userIndex suggestion:(NSString*)suggestion suggestType:(NSString*)type sAlert:(BOOL)isAlert receive:(id)receive{
+    
+    NSMutableDictionary *dict = [DYBHttpInterface wosSuggest:userIndex suggestion:suggestion suggestType:type];
+    DYBRequest *request = AUTORELEASE([[DYBRequest alloc] init]);
+    MagicRequest *dre = [request DYBGET:dict isAlert:isAlert receive:receive];
+    return dre;
+    
+    
+}
+
 + (MagicRequest *)wosKitchenInfo_foodlist:(NSString *)kitchenIndex sAlert:(BOOL)isAlert receive:(id)receive{
     
     NSMutableDictionary *dict = [DYBHttpInterface wosKitchenInfo_foodlist:kitchenIndex];

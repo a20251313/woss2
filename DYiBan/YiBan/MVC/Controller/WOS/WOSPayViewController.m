@@ -100,7 +100,7 @@
             [scrollView release];
             scrollView = nil;
         }
-       scrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0.0f,self.headHeight+10, 320.0f, self.view.frame.size.height)];
+       scrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0.0f,self.headHeight+10, 320.0f, self.view.frame.size.height-self.headHeight-10)];
         [self.view addSubview:scrollView];
 
         
@@ -172,7 +172,7 @@
         [scrollView addSubview:labelUserFree];
         RELEASEOBJ(labelUserFree);
         
-        UISwitch *switchFree = [[UISwitch alloc]initWithFrame:CGRectMake(250.0f,fypoint, 50.0f, 30.0f)];
+        UISwitch *switchFree = [[UISwitch alloc]initWithFrame:CGRectMake(250.0f-(ISIOS7?0:10),fypoint, 50.0f, 30.0f)];
         [switchFree addTarget:self action:@selector(doSwith:) forControlEvents:UIControlEventTouchUpInside];
         switchFree.tag = 300;
         [scrollView addSubview:switchFree];
@@ -244,7 +244,8 @@
         RELEASEOBJ(btnMakeSuerOrder);
 
    
-        [scrollView setContentSize:CGSizeMake(320.0f,  fypoint+btnMakeSuerOrder.frame.size.height)];
+        [scrollView setContentSize:CGSizeMake(320.0f,  fypoint+btnMakeSuerOrder.frame.size.height+44)];
+        //self.automaticallyAdjustsScrollViewInsets = NO;
         
         NSString *index = [[NSUserDefaults standardUserDefaults]objectForKey:@"kitchenIndex"];
     

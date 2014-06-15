@@ -196,4 +196,5 @@
 #endif
 
 #define USERMODLE   @"usermodle"
+#define ISIOS7      ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0)
 

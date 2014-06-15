@@ -44,6 +44,7 @@
 
 
 #import "WOSLogInViewController.h"
+#import "WOSSoftareSetController.h"
 
 
 
@@ -666,7 +667,7 @@ MagicUIButton *hiddenView;
     if ([signal is:[DYBBaseViewLeftView SELECTBUTTON]])
     {
         
-        NSIndexPath *indexPath = (NSIndexPath *)[signal object];
+       // NSIndexPath *indexPath = (NSIndexPath *)[signal object];
         
 //        WOSPersonInfoViewController *person = [[WOSPersonInfoViewController alloc]init];
 //        
@@ -782,17 +783,14 @@ MagicUIButton *hiddenView;
                 WOSLogInViewController *login = [[WOSLogInViewController alloc]init];
                 
                 [self.drNavigationController pushViewController:login animated:YES];
+                [login release];
                 
                 return;
             }
             
-            DYBSettingViewController *settingVC = [[[DYBSettingViewController alloc] init] autorelease];
-            [settingVC setVc:_vc];
-            [self.drNavigationController pushViewController:settingVC animated:YES];
-            
-            [settingVC release];
-            [self addSettingView];
-        
+            WOSSoftareSetController *set = [[WOSSoftareSetController alloc] init];
+            [self.drNavigationController pushViewController:set animated:YES];
+            [set release];
         
         }
         // 收藏进

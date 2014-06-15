@@ -34,6 +34,9 @@
         // Initialization code
         [self intiView];
         rotation = 0;
+        
+        
+
     }
     return self;
 }

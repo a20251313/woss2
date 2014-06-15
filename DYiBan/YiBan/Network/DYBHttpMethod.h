@@ -441,6 +441,9 @@
 
 + (MagicRequest *)wosKitchenInfo_favorite_userIndex:(NSString *)userIndex  kitchenIndex  :(NSString *)kitchenIndex sAlert:(BOOL)isAlert receive:(id)receive;
 
+
++ (MagicRequest *)wosSuggest:(NSString *)userIndex suggestion:(NSString*)suggestion suggestType:(NSString*)type sAlert:(BOOL)isAlert receive:(id)receive;
+
 + (MagicRequest *)wosKitchenInfo_commentkitchenlist:(NSString *)kitchenIndex starLevel:(NSString *)starLevel page :(NSString *)page count:(NSString *)count sAlert:(BOOL)isAlert receive:(id)receive;
 
 + (MagicRequest *)wosKitchenInfo_foodlist:(NSString *)kitchenIndex sAlert:(BOOL)isAlert receive:(id)receive;
