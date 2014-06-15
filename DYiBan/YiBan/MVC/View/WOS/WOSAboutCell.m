@@ -97,7 +97,7 @@
         
         UILabel *mainContent = [[UILabel alloc] initWithFrame:CGRectMake(0, 75+35, CELLWIDTH, 30)];
         [mainContent setBackgroundColor:[UIColor clearColor]];
-        [mainContent setTextColor:[UIColor blackColor]];
+        [mainContent setTextColor:[UIColor grayColor]];
         [mainContent setTextAlignment:NSTextAlignmentCenter];
         [mainContent setFont:[UIFont systemFontOfSize:22]];
         [self.contentView addSubview:mainContent];
@@ -113,7 +113,7 @@
         
         UIView  *bgView = [[UIView alloc] initWithFrame:CGRectMake(0, 10, CELLWIDTH, 40)];
         [bgView setBackgroundColor:[UIColor whiteColor]];
-        UILabel *mainName = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, 100, 30)];
+        UILabel *mainName = [[UILabel alloc] initWithFrame:CGRectMake(0, 5, 100, 30)];
         [mainName setBackgroundColor:[UIColor clearColor]];
         [mainName setTextColor:[UIColor blackColor]];
         [mainName setTextAlignment:NSTextAlignmentLeft];
@@ -125,7 +125,7 @@
         
         UILabel *mainContent = [[UILabel alloc] initWithFrame:CGRectMake(110, 5, CELLWIDTH-100, 30)];
         [mainContent setBackgroundColor:[UIColor clearColor]];
-        [mainContent setTextColor:[UIColor blackColor]];
+        [mainContent setTextColor:[UIColor grayColor]];
         [mainContent setTextAlignment:NSTextAlignmentLeft];
         [mainContent setFont:[UIFont systemFontOfSize:18]];
         [bgView addSubview:mainContent];
