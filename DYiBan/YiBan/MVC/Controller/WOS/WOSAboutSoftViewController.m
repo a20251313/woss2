@@ -93,7 +93,7 @@
          WOSAboutModel *mode2 = [WOSAboutModel modelWithType:WOSAboutCellNormal mainName:@"版本更新" mainContent:@"最新版本"];
         WOSAboutModel *mode3 = [WOSAboutModel modelWithType:WOSAboutCellNormal mainName:@"企业邮箱" mainContent:@"chanmaowaimai@163.com"];
           WOSAboutModel *mode4 = [WOSAboutModel modelWithType:WOSAboutCellIndicate mainName:@"客服电话" mainContent:@"0371-66618606"];
-          WOSAboutModel *mode5 = [WOSAboutModel modelWithType:WOSAboutCellNormal mainName:@"意见反馈" mainContent:@""];
+          WOSAboutModel *mode5 = [WOSAboutModel modelWithType:WOSAboutCellIndicate mainName:@"意见反馈" mainContent:@""];
         [arrayDataList addObjectsFromArray:@[model,mode2,mode3,mode4,mode5]];
         
     }
