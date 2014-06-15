@@ -98,6 +98,9 @@ DEF_SIGNAL(BTNTWO);
         _tableView = [[MagicUITableView alloc]initWithFrame:CGRectMake(0.0f, 166/2 + self.headHeight, 320.0f, self.view.frame.size.height -  166/2 + self.headHeight)];
 
         [self.view addSubview:_tableView];
+        _tableView.separatorColor = ColorGreen;
+        
+       // _tableView.backgroundColor = [UIColor clearColor];
         RELEASE(_tableView);
 
         MagicRequest *request = [DYBHttpMethod wosKitchenInfo_kitchenIndex:[_dictInfo objectForKey:@"kitchenIndex"] userIndex:SHARED.userId hotFoodCount:@"1000" sAlert:YES receive:self];
@@ -139,15 +142,17 @@ DEF_SIGNAL(BTNTWO);
     AppDelegate *app = appDelegate;
     NSArray *arraMyGps = [app.gps componentsSeparatedByString:@","];
     
+
     double lat = 0;
     double lon = 0;
     
     if ([arraMyGps count])
     {
-        lat = [arraMyGps[1] floatValue];
-        lon = [arraMyGps[0] floatValue];
+        lat = [arraMyGps[0] floatValue];
+        lon = [arraMyGps[1] floatValue];
     }
     NSString *gps = [dict objectForKey:@"gps"];
+    SHARED.shopGps = gps;
     NSArray *arrayGPS = [gps componentsSeparatedByString:@","];
     double tt = [DYBShareinstaceDelegate getDsitance_lat_a:lat lng_a:lon lat_b:[[arrayGPS objectAtIndex:0] doubleValue] lng_b:[[arrayGPS objectAtIndex:1] doubleValue]];
     [labelDistance setText:[NSString stringWithFormat:@"距离我%@",[self getDistance:tt]]];
@@ -185,7 +190,14 @@ DEF_SIGNAL(BTNTWO);
     RELEASE(btnCollect);
     
     UILabel *labelCellect1 = [[UILabel alloc]initWithFrame:CGRectMake(537/2 - 30, CGRectGetHeight(btnCollect.frame) +CGRectGetMinY(btnCollect.frame), btnCollect.frame.size.width+60, 21)];
-    [labelCellect1 setText:[NSString stringWithFormat:@"%@人收藏",[dict objectForKey:@"favorTimes"] ]];
+    
+    if ([dict valueForKey:@"favorTimes"]) {
+          [labelCellect1 setText:[NSString stringWithFormat:@"%@人收藏",[dict objectForKey:@"favorTimes"] ]];
+    }else
+    {
+        [labelCellect1 setText:@"0人收藏"];
+    }
+  
     [labelCellect1 setTextAlignment:NSTextAlignmentCenter];
     [self.view addSubview:labelCellect1];
     RELEASE(labelCellect1);

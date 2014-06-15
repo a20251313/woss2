@@ -110,8 +110,8 @@
     
     if ([arraMyGps count])
     {
-        lat = [arraMyGps[1] floatValue];
-        lon = [arraMyGps[0] floatValue];
+        lat = [arraMyGps[0] floatValue];
+        lon = [arraMyGps[1] floatValue];
     }
     NSString *gps = [dict objectForKey:@"gps"];
     NSArray *arrayGPS = [gps componentsSeparatedByString:@","];

@@ -38,6 +38,29 @@
 
 
 
+-(NSString*)getSongdaTime
+{
+    
+    AppDelegate *app = appDelegate;
+    NSArray *arraMyGps = [app.gps componentsSeparatedByString:@","];
+    
+    double lat = 0;
+    double lon = 0;
+    
+    if ([arraMyGps count])
+    {
+        lat = [arraMyGps[0] floatValue];
+        lon = [arraMyGps[1] floatValue];
+    }
+    NSString *gps = SHARED.shopGps;
+    NSArray *arrayGPS = [gps componentsSeparatedByString:@","];
+    double tt = [DYBShareinstaceDelegate getDsitance_lat_a:lat lng_a:lon lat_b:[[arrayGPS objectAtIndex:0] doubleValue] lng_b:[[arrayGPS objectAtIndex:1] doubleValue]];
+    int  mininutes = tt/100;
+    NSString    *strTime = [NSString stringWithFormat:@"预计%d分钟到达",mininutes];
+    return  strTime;
+    
+    
+}
 
 -(void)creatView{
     
@@ -67,23 +90,28 @@
     RELEASE(view);
     
     NSString *shopName = [[NSUserDefaults standardUserDefaults]objectForKey:@"shopname"];
-    UILabel *labelName = [[UILabel alloc]initWithFrame:CGRectMake(0.0f, -10, 200.0f, 20.0f)];
+    UILabel *labelName = [[UILabel alloc]initWithFrame:CGRectMake(0.0f,0, 320, 20.0f)];
     [labelName setCenter:CGPointMake(160.0f, 40/2)];
+    [labelName setTextAlignment:NSTextAlignmentCenter];
     [labelName setText:shopName];
+    [labelName setFont:[UIFont systemFontOfSize:22]];
     [view addSubview:labelName];
     RELEASE(labelName);
     
     
-    labelTime = [[UILabel alloc]initWithFrame:CGRectMake(0.0f, 35.0, 200.0f, 20)];
-    [labelTime setText:@"预计15分钟"];
+    labelTime = [[UILabel alloc]initWithFrame:CGRectMake(0.0f, 35.0, 320, 20)];
+    [labelTime setText:[self getSongdaTime]];
+    [labelTime setTextColor:[UIColor darkGrayColor]];
     [labelTime setCenter:CGPointMake(160.0f, 75/2)];
+    [labelTime setTextAlignment:NSTextAlignmentCenter];
     [labelTime setFont:[UIFont systemFontOfSize:14]];
     [view addSubview:labelTime];
 
     
-    UITableView *_tableView = [[UITableView alloc]initWithFrame:CGRectMake(0.0f, 50.0f, 320.0f, self.frame.size.height - 100 - 305/2 - 70)];
+    UITableView *_tableView = [[UITableView alloc]initWithFrame:CGRectMake(0.0f, 60.0f, 320.0f, self.frame.size.height - 100 - 305/2 - 80)];
     [_tableView setDelegate:self];
     [_tableView setDataSource:self];
+    _tableView.separatorColor = [UIColor clearColor];
     [view addSubview:_tableView];
 
     

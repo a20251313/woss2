@@ -54,7 +54,7 @@ DEF_SIGNAL(NoInternetConnection)//无网
     float y = 10;
     if ([MagicDevice sysVersion] >= 7)
     {
-        y = 20;
+        y = 25;
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= IOS_7        
 //        self.automaticallyAdjustsScrollViewInsets = NO;
 #endif
@@ -111,7 +111,7 @@ DEF_SIGNAL(NoInternetConnection)//无网
     float y = 0;
     if ([MagicDevice sysVersion] >= 7)
     {
-        y = 20;
+        y = 25;
     }
     return y;
 }

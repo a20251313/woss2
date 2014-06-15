@@ -41,7 +41,7 @@ isLoginMethod = _isLoginMethod;
 @synthesize phone;
 @synthesize email;
 @synthesize username;
-@synthesize mylocation;
+@synthesize shopGps;
 
 static DYBShareinstaceDelegate *sharedInstace = nil;
 

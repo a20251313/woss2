@@ -18,7 +18,7 @@
 #import "WOSOrderLostViewController.h"
 
 #define NORMALBORDORCOLOR   [UIColor grayColor]
-#define HIGHLIGHTBORDORCOLOR   [UIColor yellowColor]
+#define HIGHLIGHTBORDORCOLOR   [UIColor orangeColor]
 #define TEXTCOLOR               [UIColor colorWithRed:40.0f/255 green:191.0f/255 blue:140.0f/255 alpha:1.0f]
 
 @interface WOSPayViewController ()<UITextFieldDelegate>{
@@ -718,7 +718,7 @@
     
     textField.textColor = TEXTCOLOR;
     CGRect frame = scrollView.frame;
-    frame.origin.y += 100;
+    frame.origin.y += 140;
     [UIView animateWithDuration:0.3 animations:^{scrollView.frame = frame;}];
     [textField resignFirstResponder];
     return YES;
