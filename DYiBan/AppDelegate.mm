@@ -81,7 +81,7 @@
      [[UIApplication sharedApplication] setStatusBarHidden:NO];
     
     [self initAppdelegate];
-    [self loginMethod];
+   // [self loginMethod];
 #if !TARGET_IPHONE_SIMULATOR
     //注册推送通知
     [[UIApplication sharedApplication] registerForRemoteNotificationTypes:
@@ -189,26 +189,11 @@
 #pragma mark - method
 - (void)loginMethod
 {
-//    MagicRequest *request = [DYBHttpMethod site_version:YES receive:self];
-//    [request setTag:1];
     
-    NSDictionary *userDict = [DYBShareinstaceDelegate userList];
-    if (userDict)
-    {
-//        SHARED.sessionID = [userDict objectForKey:@"sessionID"];
-        SHARED.userId = [userDict objectForKey:@"userid"];
-        
-//        MagicRequest *request = [DYBHttpMethod user_security_autologin:YES receive:self];
-//        [request setTag:1];
-        
-        
-        
-//        DYBUITabbarViewController *vc = [[DYBUITabbarViewController sharedInstace] init:[[_navi viewControllers] objectAtIndex:0]];
-//        
-//        [_navi pushViewController:vc animated:NO];
-//        
-//        SHARED.isLoginMethod = YES;
-    }
+    NSString    *strUserName = [DYBShareinstaceDelegate getUserName];
+    NSString    *strPwd = [DYBShareinstaceDelegate getUserPwd];
+    MagicRequest *request = [DYBHttpMethod wosLongin_nickName:strUserName passwd:strPwd sAlert:YES receive:self];
+    [request setTag:100];
 }
 
 - (void)initAppdelegate

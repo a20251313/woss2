@@ -381,6 +381,7 @@
 }
 
 
+
 #pragma mark- 只接受HTTP信号
 - (void)handleRequest:(MagicRequest *)request receiveObj:(id)receiveObj
 {
@@ -398,6 +399,7 @@
             if (!result) {
                 
                 
+                [DYBShareinstaceDelegate storeUserName:_phoneInputName.nameField.text pwd:_phoneInputAddr.nameField.text];
                 self.DB.FROM(USERMODLE)
                 .SET(@"userInfo", request.responseString)
                 .SET(@"userIndex",[dict objectForKey:@"userIndex"])

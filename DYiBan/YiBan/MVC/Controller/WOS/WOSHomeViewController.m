@@ -165,6 +165,8 @@ DEF_SIGNAL(TOUCHBUTTON)
 //        [self creatBowwon2];
         [self creatBowwonView];
         
+        [self loginMethod];
+        
         
     }
     
@@ -185,7 +187,7 @@ DEF_SIGNAL(TOUCHBUTTON)
         if (!rightBtn) {
             
             UIImage *image = [UIImage imageNamed:@"地图1"];
-            rightBtn = [[UIButton alloc]initWithFrame:CGRectMake(240, 20, image.size.width/2, image.size.height/2)];
+            rightBtn = [[UIButton alloc]initWithFrame:CGRectMake(240, 20.0f-(ISIOS7?-8:13), image.size.width/2, image.size.height/2)];
             [rightBtn setImage:[UIImage imageNamed:@"地图1.png"] forState:UIControlStateNormal];
             [rightBtn addTarget:self action:@selector(doRight) forControlEvents:UIControlEventTouchUpInside];
             [self.view addSubview:rightBtn];
@@ -194,7 +196,7 @@ DEF_SIGNAL(TOUCHBUTTON)
         
         if (!searchBar) {
             
-            searchBar = [[UISearchBar alloc]initWithFrame:CGRectMake(30, 20.0f, 200.0f, 30) ];
+            searchBar = [[UISearchBar alloc]initWithFrame:CGRectMake(30, 20.0f-(ISIOS7?-8:13), 200.0f, 30) ];
 //        backgroundColor:[UIColor whiteColor] placeholder:@"" isHideOutBackImg:YES isHideLeftView:NO];
             [searchBar setShowsCancelButton:NO];
             [searchBar setPlaceholder:@"餐厅名字"];
@@ -273,6 +275,7 @@ DEF_SIGNAL(TOUCHBUTTON)
     }
 }
 
+
 -(void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar{
 
     
@@ -297,8 +300,28 @@ DEF_SIGNAL(TOUCHBUTTON)
 
 -(void)doRight{
 
+    // [self hideTabBar:YES animated:NO setView:viewBowwonView];
+    [viewPaiX setHidden:YES];
+    [fenlei setHidden:YES];
+    [youhui setHidden:YES];
     [self mapViewController];
 
+}
+
+
+
+- (void)loginMethod
+{
+    
+    NSString    *strUserName = [DYBShareinstaceDelegate getUserName];
+    NSString    *strPwd = [DYBShareinstaceDelegate getUserPwd];
+    
+    if ([strUserName length] && [strPwd length])
+    {
+        MagicRequest *request = [DYBHttpMethod wosLongin_nickName:strUserName passwd:strPwd sAlert:YES receive:self];
+        [request setTag:100];
+    }
+  
 }
 
 #pragma mark- 接受tbv信号
@@ -442,6 +465,8 @@ static NSString *cellName = @"cellName";//
 {
     NSLog(@"-- %f",self.view.bounds.size.height);
     
+    
+    CGFloat fheight = view.frame.size.height;
     float version = [[UIDevice currentDevice].systemVersion floatValue];
     int offset1 = 0;
     if (version >= 7.0) {
@@ -456,7 +481,7 @@ static NSString *cellName = @"cellName";//
         }
     }else
     {
-        if (view.frame.origin.y == self.view.bounds.size.height - 40 + offset1)
+        if (view.frame.origin.y == self.view.bounds.size.height - fheight + offset1)
         {
             return;
         }
@@ -468,20 +493,20 @@ static NSString *cellName = @"cellName";//
         [UIView setAnimationDuration:.3f];
         if (isHidden)
         {
-            CHANGEFRAMEORIGIN(view.frame, view.frame.origin.x, view.frame.origin.y + 40);
+            CHANGEFRAMEORIGIN(view.frame, view.frame.origin.x,self.view.frame.size.height + fheight+offset1);
         }else
         {
-            CHANGEFRAMEORIGIN(view.frame, view.frame.origin.x, view.frame.origin.y - 40);
+            CHANGEFRAMEORIGIN(view.frame, view.frame.origin.x, self.view.frame.size.height - fheight+offset1);
         }
         [UIView commitAnimations];
     }else
     {
         if (isHidden)
         {
-            CHANGEFRAMEORIGIN(view.frame, view.frame.origin.x, view.frame.origin.y + 1000);
+            CHANGEFRAMEORIGIN(view.frame, view.frame.origin.x, self.view.frame.origin.y - 1000);
         }else
         {
-            CHANGEFRAMEORIGIN(view.frame, view.frame.origin.x, view.frame.origin.y - 40);
+            CHANGEFRAMEORIGIN(view.frame, view.frame.origin.x, self.view.frame.origin.y - fheight);
         }
     }
 }
@@ -677,6 +702,8 @@ static NSString *cellName = @"cellName";//
 
 -(void)creatBowwonView{
 
+    
+    CGFloat   fheight = 35;
     float version = [[UIDevice currentDevice].systemVersion floatValue];
     int offset1 = 0;
     if (version < 7.0) {
@@ -684,7 +711,7 @@ static NSString *cellName = @"cellName";//
     }
     
 
-   viewBowwonView = [[UIView alloc]initWithFrame:CGRectMake(0.0f, self.view.frame.size.height - 40 - offset1, 320.0f, 40)];
+   viewBowwonView = [[UIView alloc]initWithFrame:CGRectMake(0.0f, self.view.frame.size.height - fheight - offset1, 320.0f, fheight)];
     [viewBowwonView setTag:100101];
     [viewBowwonView setBackgroundColor:[UIColor grayColor]];
     [viewBowwonView setAlpha:0.7];
@@ -694,11 +721,11 @@ static NSString *cellName = @"cellName";//
     float offset = 320/4;
     for (int i = 0; i < 4; i++) {
         
-        MagicUIButton *btnTouch = [[MagicUIButton alloc]initWithFrame:CGRectMake(i * offset, 0.0f, offset, 40)];
+        MagicUIButton *btnTouch = [[MagicUIButton alloc]initWithFrame:CGRectMake(i * offset, 0.0f, offset, fheight)];
         [btnTouch setTag:i + 100];
         [btnTouch setTitle:[self getTitle1:i] forState:UIControlStateNormal];
         [btnTouch addTarget:self action:@selector(doSelectBowwon:) forControlEvents:UIControlEventTouchUpInside];
-//        [btnTouch addSignal:[WOSHomeViewController TOUCHBUTTON] forControlEvents:UIControlEventTouchUpInside];
+        //[btnTouch addSignal:[WOSHomeViewController TOUCHBUTTON] forControlEvents:UIControlEventTouchUpInside];
         [viewBowwonView addSubview:btnTouch];
         [btnTouch setBackgroundColor:[UIColor clearColor]];
         RELEASE(btnTouch);
@@ -773,6 +800,8 @@ static NSString *cellName = @"cellName";//
 
 -(void)doSelectBowwon:(id)sender{
 
+    
+    CGFloat   fheight = 35;
     UIView *viewBar = [self.view viewWithTag:100101];
     UIButton *btn = (UIButton *)sender;
     if (viewBar) {
@@ -799,7 +828,7 @@ static NSString *cellName = @"cellName";//
         
         
         
-        CGRect rect = CGRectMake(0.0f, self.view.frame.size.height - 40 - 20  , 320.0f, 40.0f);
+        CGRect rect = CGRectMake(0.0f,viewBar.frame.origin.y-fheight, 320.0f, fheight);
         
         switch (btn.tag) {
             case 100:
@@ -811,7 +840,7 @@ static NSString *cellName = @"cellName";//
                     RELEASE(viewPaiX);
                     [viewPaiX setBackgroundColor:[UIColor colorWithRed:40.0f/255 green:191.0f/255 blue:140.0f/255 alpha:1.0f]];
                     [viewPaiX setAlpha:0.7];
-                    UIButton *btn1 = [[UIButton alloc]initWithFrame:CGRectMake(0, 0.0f, 160.0f, 40.0f)];
+                    UIButton *btn1 = [[UIButton alloc]initWithFrame:CGRectMake(0, 0.0f, 160.0f, fheight)];
                     [btn1 setTag:10000];
                     [btn1 setTitle:@"距离优先" forState:UIControlStateNormal];
                     [btn1 addTarget:self action:@selector(setCan:) forControlEvents:UIControlEventTouchUpInside];
@@ -819,7 +848,7 @@ static NSString *cellName = @"cellName";//
                     RELEASE(btn1);
                     
                     
-                    UIButton *btn2 = [[UIButton alloc]initWithFrame:CGRectMake(160, 0.0f, 160.0f, 40.0f)];
+                    UIButton *btn2 = [[UIButton alloc]initWithFrame:CGRectMake(160, 0.0f, 160.0f, fheight)];
                     [btn2 setTag:10001];
                     [btn2 setTitle:@"热门优先" forState:UIControlStateNormal];
                     [btn2 addTarget:self action:@selector(setCan:) forControlEvents:UIControlEventTouchUpInside];
@@ -857,7 +886,7 @@ static NSString *cellName = @"cellName";//
                     
                     for (int i = 0; i < 6; i++) {
                         
-                        UIButton *btn1 = [[UIButton alloc]initWithFrame:CGRectMake(i * offset, 0.0f, offset, 40.0f)];
+                        UIButton *btn1 = [[UIButton alloc]initWithFrame:CGRectMake(i * offset, 0.0f, offset, fheight)];
 
                         
                         [btn1 setTag:10002 + i];
@@ -913,7 +942,7 @@ static NSString *cellName = @"cellName";//
                     
                     for (int i = 0; i < 3; i++) {
                         
-                        UIButton *btn1 = [[UIButton alloc]initWithFrame:CGRectMake(i * offset, 0.0f, offset, 40.0f)];
+                        UIButton *btn1 = [[UIButton alloc]initWithFrame:CGRectMake(i * offset, 0.0f, offset, fheight)];
                         
                         
                         [btn1 setTag:10009 + i];
@@ -1369,7 +1398,32 @@ static NSString *cellName = @"cellName";//
                 }
             }
             
-        } else{
+        }if (request.tag == 100) {
+            
+            NSDictionary *dict = [request.responseString JSONValue];
+            
+            if (dict) {
+                BOOL result = [[dict objectForKey:@"result"] boolValue];
+                if (!result) {
+                    
+                    SHARED.userId = [dict objectForKey:@"userIndex"]; //设置userid 全局变量
+                    
+                    [SHARED setUserInfoFromLoginDic:dict];
+                    
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"DYBBaseViewLeftViewHead" object:nil userInfo:nil];
+                    //                DYBUITabbarViewController *vc = [[DYBUITabbarViewController sharedInstace] init:self];
+                    //
+                    //                [self.drNavigationController pushViewController:vc animated:YES];
+                    
+                }else{
+                    NSString *strMSG = [dict objectForKey:@"message"];
+                    
+                    [DYBShareinstaceDelegate popViewText:strMSG target:self hideTime:.5f isRelease:YES mode:MagicPOPALERTVIEWINDICATOR];
+                    
+                    
+                }
+            }
+        }else{
             NSDictionary *dict = [request.responseString JSONValue];
             NSString *strMSG = [dict objectForKey:@"message"];
             
@@ -1414,6 +1468,7 @@ static NSString *cellName = @"cellName";//
         
     }
     
+    [self.view endEditing:YES];
     WOSSearchViewController *search = [[WOSSearchViewController alloc]init];
     search.searkey = localsearchBar.text;
     [self.drNavigationController pushViewController:search animated:YES];

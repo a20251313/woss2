@@ -72,6 +72,23 @@ static DYBShareinstaceDelegate *sharedInstace = nil;
 
 
 
++(void)storeUserName:(NSString*)userName pwd:(NSString*)pwd
+{
+    NSUserDefaults  *stan = [NSUserDefaults standardUserDefaults];
+    [stan setObject:userName forKey:@"userName"];
+    [stan setObject:pwd forKey:@"userPwd"];
+    [stan synchronize];
+}
+
++(NSString*)getUserName
+{
+    return [[NSUserDefaults standardUserDefaults] objectForKey:@"userName"];
+}
++(NSString*)getUserPwd
+{
+    return [[NSUserDefaults standardUserDefaults] objectForKey:@"userPwd"];
+}
+
 -(void)storeUserImage:(UIImage*)image
 {
     NSString    *strPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];

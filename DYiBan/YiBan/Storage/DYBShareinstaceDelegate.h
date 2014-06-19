@@ -100,4 +100,10 @@
 -(void)storeUserImage:(UIImage*)image;
 -(UIImage*)getUserImage;
 
+
+
++(void)storeUserName:(NSString*)userName pwd:(NSString*)pwd;
++(NSString*)getUserName;
++(NSString*)getUserPwd;
+
 @end
